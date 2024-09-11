@@ -1,0 +1,28 @@
+{% for it in items %}
+    <div>
+        <div class="row mb-3 align-items-center">
+            <div class="col-8">
+                <h5><i class="far fa-copy me-2"></i>{{ it._name }}</h5>
+            </div>
+            <div class="col-4 text-end"></div>
+        </div>
+
+        {% for pageItem in tokens[it._name] %}
+        {% capture prefix %}.{{ it._name }}[{{ forloop.index0 }}]{% endcapture %}
+        {% assign ph = placeholders[it._name][forloop.index0] %}
+        <div class="row">
+            <div class="col-1">
+                {% render "page/edit/item/weight", prefix: prefix, weight: pageItem._weight %}
+            </div>
+            <div class="col-10">
+
+                {% render "page/edit/scaffold/attributes", attributes: it.attributes, tokens: pageItem, placeholders: ph, prefix: prefix %}
+                {% render "page/edit/scaffold/values", values: it.values, tokens: pageItem, placeholders: ph, prefix: prefix %}
+            </div>
+            <div class="col-1">
+                {% render "page/edit/item/add-button", index: forloop.index0, page_id:item.id, item_name: it._name %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endfor %}

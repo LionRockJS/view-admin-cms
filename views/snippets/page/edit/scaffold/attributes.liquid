@@ -1,0 +1,5 @@
+{% for it in attributes %}
+    {% assign selector = prefix | append: '@' | append: it %}
+    {% assign label = it | prepend : '@' %}
+    {% render 'page/edit/field-row', type: "text/basic", label: label, selector: selector, value: tokens[it], placeholder: placeholders[it] %}
+{% endfor %}

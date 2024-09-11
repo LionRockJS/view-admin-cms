@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "import": {
+      "type": "admin/import-export-csv",
+      "settings": {}
+    },
+    "header": {
+      "type": "page/list/header",
+      "settings": {
+      }
+    },
+    "main": {
+      "type": "page/list/main",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "import",
+    "header",
+    "main"
+  ]
+}

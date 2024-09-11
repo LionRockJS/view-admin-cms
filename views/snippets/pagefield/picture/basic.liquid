@@ -1,0 +1,15 @@
+<div id="{{ selector }}" class="w-full page-field page-field-upload page-field-picture{% if preview %} page-field-picture-preview {% endif %}">
+  <div class="w-full flex flex-row items-center">
+    <div class="input-group-text input-group-icon me-2 preview">{% if value == blank or preview %}<i class="far fa-image"></i>{% else %}<img class="icon" src="{{ value }}" alt="" style="max-height:3rem;"/>{% endif %}</div>
+
+    <div class="w-full me-4">
+      {% render 'pagefield/text/basic', label: "Picture", selector:selector, value: value, class_name: "page-field-upload-text", placeholder: placeholder %}
+    </div>
+
+    <div class="input-group-text">
+      <label for="{{ selector }}-upload"><i class="fas fa-cloud-upload-alt"></i></label>
+      <input class="hidden" type="file" id="{{ selector }}-upload" name="{{ selector }}-file"/>
+    </div>
+
+  </div>
+</div>

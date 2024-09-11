@@ -1,0 +1,14 @@
+<div class="grid grid-cols-4">
+  {% for item in items %}
+    <a class="block border border-gray-500 text-center" href="/admin/contents/qrcode/vcard/{{ item }}.svg" download="{{ item }}.svg">
+      <div class="flex items-center flex-col">
+        <div>
+          <img src="/admin/contents/qrcode/vcard/{{ item }}.svg" alt="QR Code"/>
+        </div>
+        <div>
+          {{ item }}
+        </div>
+      </div>
+    </a>
+  {% endfor %}
+</div>

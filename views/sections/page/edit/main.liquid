@@ -1,0 +1,98 @@
+{% assign block_types = "label,default,logos,paragraphs,banner,facts" %}
+{% assign page_type_name = "Default" %}
+
+<div class="container mx-auto">
+  <form id="main-form" action="/admin/pages/{{ item.id }}?language={{ language |  default: "en" }}" method="post">
+    <div class="flex flex-row">
+      <div class="w-9/12 px-4">
+        <div class="mb-4">
+          {% render "page/edit/language", language: language, form: "main-form" %}
+        </div>
+
+        <div>
+          <!-- values --->
+{%- liquid
+for field in fields
+  assign selector = "." | append : field
+  assign input_type = inputs[field] | default: "text"
+  assign input_type = input_type | append : "/basic"
+  assign placeholder = placeholders.tokens[field] | strip_html
+  render 'page/edit/field-row', type: input_type, label: field, selector: selector, value: tokens[field], placeholder: placeholder
+endfor
+-%}
+
+
+          <!-- items -->
+          {% for item in items %}
+          <div class="border-b border-gray-300 pb-3 mb-3">
+{%- liquid
+assign item_name = item.name
+assign item_label = item.name | capitalize
+assign default_items = " " |  split: ","
+assign page_items = tokens[item_name] | default: default_items
+assign page_items = page_items | sort : "_weight"
+  assign key = "." | append: forloop.index0 | append: item_name | md5
+-%}
+            <label class="text-xl font-serif me-2" for="{{ key }}"><i class="far fa-copy me-2"></i>{{ item_label }}</label>
+            <input type="checkbox" class="peer hidden" data-state-store="true" checked id="{{ key }}">
+            <label for="{{ key }}" class="float-end peer-checked:hidden inline"><i class="fa-thin fa-chevron-down"></i></label>
+            <label for="{{ key }}" class="float-end peer-checked:inline hidden"><i class="fa-thin fa-chevron-up"></i></label>
+
+            <div class="hidden peer-checked:block mt-3">
+            {% for page_item in page_items %}
+              {% assign item_index = forloop.index0 %}
+              {% capture prefix %}.{{ item_name }}[{{ forloop.index0 }}]{% endcapture %}
+              <div class="flex flex-row mb-3">
+                {% render "page/edit/item/weight", prefix: prefix, weight: page_item._weight %}
+                <div class="me-4 w-full">
+                  {%- liquid
+                    for attribute in item.attributes
+                      assign selector = prefix | append: "@" | append : attribute
+                      assign input_type = inputs[attribute] | default: "text"
+                      assign input_type = input_type | append : "/basic"
+                      assign placeholder = placeholders.tokens[item_name][item_index][attribute] | strip_html
+                      render 'page/edit/field-row', type: input_type, label: attribute, selector: selector, value: page_item[attribute], placeholder: placeholder
+                    endfor
+
+                    for field in item.fields
+                      assign selector = prefix | append: "." | append : field
+                      assign input_type = inputs[field] | default: "text"
+                      assign input_type = input_type | append : "/basic"
+                      assign placeholder = placeholders.tokens[item_name][item_index][field] | strip_html
+                      render 'page/edit/field-row', type: input_type, label: field, selector: selector, value: page_item[field], placeholder: placeholder
+                    endfor
+                  -%}
+                </div>
+                {% render "page/edit/item/add-button", index: forloop.index0, page_id:item.id, item_name: item_name %}
+              </div>
+            {% endfor %}
+          </div>
+          </div>
+          {% endfor %}
+          <!-- end items -->
+
+          {% render "page/edit/block/container", page_id: item.id, placeholder: placeholders.tokens, block_names: block_names, blocks: blocks, limits: block_types, blocks_blueprint: blocks_blueprint, inputs: inputs %}
+        </div>
+      </div>
+
+      <div class="w-3/12">
+        <div id="page-attributes" class="rounded border border-gray-200 bg-gray-100 px-4 p-4 mb-4">
+          {%- liquid
+            for attribute in attributes
+              assign selector = "@" | append : attribute
+              assign input_type = inputs[attribute] | default: "text"
+              assign input_type = input_type | append : "/basic"
+              render 'page/edit/field-row', type: input_type, label: attribute, selector: selector, value: tokens[attribute], placeholder: placeholder[attribute]
+            endfor
+          -%}
+        </div>
+
+        <div id="page-tags" class="rounded border border-gray-200 bg-gray-100 px-4 p-4">
+          {% render "page/edit/tag/input", page_id: item.id, label: "Categories", tag_group:"Categories", tag_options: tags.categories, tags: item.tags.categories %}
+          {% render "page/edit/tag/input", page_id: item.id, label: "Topics", tag_group:"Topics", tag_options: tags.topics, tags: item.tags.topics %}
+          {% render "page/edit/tag/input", page_id: item.id, label: "Collections", tag_group:"Collections", tag_options: tags.collections, tags: item.tags.collections %}
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
