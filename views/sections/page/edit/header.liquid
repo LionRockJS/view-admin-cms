@@ -2,7 +2,7 @@
   <div class="w-9/12">
     <input form="main-form" class="inline-edit text-5xl" type="text" placeholder="{{ label }}" name=":name" value="{{ item.name }}" required>
     <div>
-      <label class="inline" for="slug">https://card.occasionsapac.com/</label><input form="main-form" class="inline-edit" type="text" name=":slug" value="{{ item.slug }}" id="slug" placeholder="slug" pattern="[a-z0-9-]+" required/>
+      <label class="inline" for="slug">https://{{ request.host }}/</label><input form="main-form" class="inline-edit" type="text" name=":slug" value="{{ item.slug }}" id="slug" placeholder="slug" pattern="[a-z0-9-]+" required/>
       <!--click to copy to clipboard -->
       <span class="text-xs border border-white rounded bg-white text-gray-900 px-2 select-none cursor-pointer" onclick="navigator.clipboard.writeText(`https://card.occasionsapac.com/${document.getElementById('slug').value}`); alert('copied')">copy</span>
     </div>
