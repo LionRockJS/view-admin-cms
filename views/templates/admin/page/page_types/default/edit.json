@@ -16,8 +16,8 @@
         "link2": {
           "type": "link",
           "settings": {
-            "text": "Page Types",
-            "url": "/admin/contents/list/{{ slug }}"
+            "text": "{{item.page_type}}",
+            "url": "/admin/contents/list/{{ item.page_type }}"
           }
         }},
       "block_order": [
