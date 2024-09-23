@@ -13,11 +13,17 @@
       "type": "page/list/main",
       "settings": {
       }
+    },
+    "pagination": {
+      "type": "admin/pagination",
+      "settings": {
+      }
     }
   },
   "order": [
     "import",
     "header",
-    "main"
+    "main",
+    "pagination"
   ]
 }
