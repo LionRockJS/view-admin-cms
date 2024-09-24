@@ -11,7 +11,7 @@
       }
     },
     "pagination":{
-      "type": "pagination",
+      "type": "admin/pagination",
       "settings": {}
     }
   },

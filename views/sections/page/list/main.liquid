@@ -1,4 +1,5 @@
 <script src="https://unpkg.com/htmx.org@2.0.2"></script>
+<form id="search" action="/admin/search/pages/{{ page_type }}" method="get"></form>
 <div class="container mx-auto px-4">
   <form id="form-list" action="/admin/pages" method="post"></form>
     <input form="form-list" type="hidden" name="destination" value="/admin/contents/list/{{ page_type }}">
@@ -21,7 +22,7 @@
           <td><input form='form-list' type="checkbox" name="chk{{item.id}}" /></td>
           <td>{{ forloop.index }}</td>
           <td>{{ item.id }}</td>
-          <td><a href="/admin/{{type.tableName}}/{{item.id}}">{{item.name}}</a></td>
+          <td><a href="/admin/{{type.tableName}}/{{item.id}}">{{item.name}}</a><br><span class="text-xs">{{ item.slug }}</span></td>
           <td class="text-center">
             <input form="form-list" type="text" name="({{ item.id }}):weight" value="{{ item.weight }}"
             class="block w-16 me-2 text-center rounded-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
