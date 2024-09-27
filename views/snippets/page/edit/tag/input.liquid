@@ -1,25 +1,29 @@
+{%- liquid
+    assign selector_input = 'input_tag_' | append : tag_group
+    assign selector_list = 'tag_' |append: tag_group |append: "_list"
+-%}
 <div class="page-tag-form my-2" data-page="{{ page_id }}" data-tag-type="{{ tag_group }}">
-    <div class="row toggle-input-tag" role="button">
-        <div class="col-8">
-            <h5><label for="input_tag_{{ tag_group }}"> {{ label }}</label></h5>
+    <div class="flex flex-row items-center">
+        <div class="relative w-full pe-2">
+            <input id="{{ tag_group }}_checkbox" type="checkbox" class="peer hidden" data-state-store="true">
+            <label for="{{ selector_input }}" class="peer-checked:absolute peer-checked:-top-2 peer-checked:ms-2 inline-block bg-gray-100 px-1 text-xs font-medium text-gray-900">{{ label }}</label>
+            <input id="{{ selector_input }}" type="text" class="tag-add-input hidden peer-checked:block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" list="{{ selector_list }}" placeholder="{{ placeholder | default: "Search" }}"/>
+            <datalist id="{{ selector_list }}">
+                {% for tag in tag_options %}
+                <option value="{{ tag.value }} ( {{ tag.name }} )" data-id="{{ tag.id }}" data-value="{{ tag.value }}" data-name="{{ tag.name }}">
+                    {% endfor %}
+            </datalist>
         </div>
-        <div class="col-4 text-end">
-            <i class="fas fa-search-plus"></i>
+
+        <div>
+            <label for="{{ tag_group }}_checkbox" class="cursor-pointer"><i class="fa-sharp fa-regular fa-pen-to-square"></i></label>
         </div>
     </div>
 
-    <div>
-        <input id="input_tag_{{ tag_group }}" type="text" class="form-control tag-add-input mb-2 visually-hidden" list="tag_{{ tag_group }}_list" placeholder="{{ placeholder | default: "Search" }}"/>
-        <datalist id="tag_{{ tag_group }}_list">
-            {% for tag in tag_options %}
-                <option value="{{ tag.value }} ( {{ tag.name }} )" data-id="{{ tag.id }}" data-value="{{ tag.value }}" data-name="{{ tag.name }}">
-            {% endfor %}
-        </datalist>
-        <div class="page-tag-list">
-            {% for tag in tags %}
-                <span role="button" class="page-tag badge rounded-pill bg-primary" data-id="{{ tag.id }}">{{ tag.value }} <i class="fas fa-times"></i></span>
-            {% endfor %}
-        </div>
+    <div class="page-tag-list relative mt-2">
+        {% for tag in tags %}
+            <span role="button" class="page-tag badge bg-black text-white text-xs px-2 py-1 rounded-full" data-id="{{ tag.id }}">{{ tag.value }} <i class="fas fa-times"></i></span>
+        {% endfor %}
     </div>
 </div>
 <hr/>

@@ -88,6 +88,8 @@ assign page_items = page_items | sort : "_weight"
         </div>
 
         <div id="page-tags" class="rounded border border-gray-200 bg-gray-100 px-4 p-4">
+          <h5>Tags</h5>
+          {% render "page/edit/tag/input", page_id: item.id, label: "Years", tag_group:"Years", tag_options: tags.years, tags: item.tags.years %}
           {% render "page/edit/tag/input", page_id: item.id, label: "Categories", tag_group:"Categories", tag_options: tags.categories, tags: item.tags.categories %}
           {% render "page/edit/tag/input", page_id: item.id, label: "Topics", tag_group:"Topics", tag_options: tags.topics, tags: item.tags.topics %}
           {% render "page/edit/tag/input", page_id: item.id, label: "Collections", tag_group:"Collections", tag_options: tags.collections, tags: item.tags.collections %}
