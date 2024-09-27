@@ -8,8 +8,8 @@
   <div class="w-9/12 pe-4">
     <input form="main-form" class="inline-edit text-5xl w-full mb-3" type="text" placeholder="{{ label }}" name=":name" value="{{ item.name }}" required>
     <div class="flex flex-row text-gray-900 text-sm">
-      <label class="inline" for="slug">https://{{ request.host }}/</label>
-      <input form="main-form" class="border-0 border-b border-gray-500 p-0 bg-transparent w-full text-sm" type="text" name=":slug" value="{{ item.slug }}" id="slug" placeholder="slug" pattern="[a-z0-9-]+" required/>
+      <label class="inline text-nowrap" for="slug">https://{{ request.host }}/</label>
+      <input form="main-form" class="border-0 border-b border-gray-500 p-0 bg-transparent w-full text-sm leading-none" type="text" name=":slug" value="{{ item.slug }}" id="slug" placeholder="slug" pattern="[a-z0-9-]+" required/>
       <!--click to copy to clipboard -->
       <span class="text-xs rounded bg-white px-2 select-none cursor-pointer text-nowrap flex items-center ms-2" onclick="copySlug(`https://{{ request.host }}/${document.getElementById('slug').value}`)"><i class="fa-sharp fa-regular fa-copy me-2"></i> copy</span>
     </div>

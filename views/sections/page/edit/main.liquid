@@ -5,7 +5,7 @@
   <form id="main-form" action="/admin/pages/{{ item.id }}?language={{ language |  default: "en" }}" method="post">
     <div id="page-attributes" class="rounded border border-gray-200 bg-gray-100 p-4 mb-4">
       <input type="checkbox" class="peer hidden" data-state-store="true" checked="checked" id="panel_attributes">
-      <label class="select-none text-xl font-serif me-2" for="panel_attributes"><i class="fa-regular fa-gear"></i> Settings</label>
+      <label class="cursor-pointer select-none text-xl font-serif me-2" for="panel_attributes"><i class="fa-regular fa-gear"></i> Settings</label>
       <label for="panel_attributes" class="select-none cursor-pointer float-end peer-checked:hidden inline"><i class="fa-thin fa-chevron-down" aria-hidden="true"></i></label>
       <label for="panel_attributes" class="select-none cursor-pointer float-end peer-checked:inline hidden"><i class="fa-thin fa-chevron-up" aria-hidden="true"></i></label>
 
