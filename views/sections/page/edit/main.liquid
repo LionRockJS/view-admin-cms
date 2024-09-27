@@ -3,6 +3,26 @@
 
 <div class="container mx-auto" data-section="sections/page/edit/main">
   <form id="main-form" action="/admin/pages/{{ item.id }}?language={{ language |  default: "en" }}" method="post">
+    <div id="page-attributes" class="rounded border border-gray-200 bg-gray-100 p-4 mb-4">
+      <input type="checkbox" class="peer hidden" data-state-store="true" checked="checked" id="panel_attributes">
+      <label class="select-none text-xl font-serif me-2" for="panel_attributes"><i class="fa-regular fa-gear"></i> Settings</label>
+      <label for="panel_attributes" class="select-none cursor-pointer float-end peer-checked:hidden inline"><i class="fa-thin fa-chevron-down" aria-hidden="true"></i></label>
+      <label for="panel_attributes" class="select-none cursor-pointer float-end peer-checked:inline hidden"><i class="fa-thin fa-chevron-up" aria-hidden="true"></i></label>
+
+      <div class="hidden peer-checked:block mt-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- attributes -->
+          {%- liquid
+            for attribute in attributes
+              assign selector = "@" | append : attribute
+              assign input_type = inputs[attribute] | default: "text"
+              assign input_type = input_type | append : "/basic"
+              render 'page/edit/field-row', type: input_type, label: attribute, selector: selector, value: tokens[attribute], placeholder: placeholder[attribute]
+            endfor
+          -%}
+        </div>
+      </div>
+    </div>
     <div class="flex lg:flex-row flex-col">
       <div class="lg:w-9/12 px-4">
         <div class="mb-4">
@@ -76,17 +96,6 @@ assign page_items = page_items | sort : "_weight"
       </div>
 
       <div class="lg:w-3/12">
-        <div id="page-attributes" class="rounded border border-gray-200 bg-gray-100 px-4 p-4 mb-4">
-          {%- liquid
-            for attribute in attributes
-              assign selector = "@" | append : attribute
-              assign input_type = inputs[attribute] | default: "text"
-              assign input_type = input_type | append : "/basic"
-              render 'page/edit/field-row', type: input_type, label: attribute, selector: selector, value: tokens[attribute], placeholder: placeholder[attribute]
-            endfor
-          -%}
-        </div>
-
         <div id="page-tags" class="rounded border border-gray-200 bg-gray-100 px-4 p-4">
           <h5>Tags</h5>
           {% render "page/edit/tag/input", page_id: item.id, label: "Years", tag_group:"Years", tag_options: tags.years, tags: item.tags.years %}
