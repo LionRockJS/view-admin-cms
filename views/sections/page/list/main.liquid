@@ -1,5 +1,4 @@
-<script src="https://unpkg.com/htmx.org@2.0.2"></script>
-<form id="search" action="/admin/search/pages/{{ page_type }}" method="get"></form>
+<form id="form-search" action="/admin/contents/search/{{ page_type }}" method="get"></form>
 <div class="container mx-auto px-4">
   {% assign qs = "" %}
   {% if request.query.pagesize %}{% assign qs = qs | append: "pagesize=" | append: request.query.pagesize %}{% endif %}
