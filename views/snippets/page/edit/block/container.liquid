@@ -1,7 +1,7 @@
 {% assign limit_blocks = limits | split : "," %}
 <h5><i class="fad fa-th me-2"></i>Content Blocks</h5>
 
-<div id="add-block" class="flex flex-row items-center mb-4">
+<div id="add-block" class="flex flex-row items-center mb-4 pe-8">
     <div class="relative w-full">
         <label for="block-select"
                class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900">Available Blocks</label>
@@ -33,7 +33,7 @@
     {%- assign tokens = block.tokens -%}
     {%- capture prefix %}#{{ block._key }}{% endcapture -%}
     {%- assign selector = prefix | append: "@_name" -%}
-    <li class="flex flex-row justify-between mb-3 pb-3 border-b border-gray-300">
+    <li class="flex flex-row justify-between mb-3 pb-3 border-b border-gray-300 pe-8">
         <div class="flex flex-row me-2 w-[10rem] min-w-[10rem]">
             <div>
                 <input name="{{ prefix }}@_weight" value="{{ tokens._weight | default: forloop.index0 }}" pattern="[0-9.]+" class="block w-10 me-2 text-center rounded-full border-0 py-1.5 text-white bg-gray-500 shadow-sm ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>

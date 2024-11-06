@@ -39,22 +39,25 @@
       <div class="hidden peer-checked:block mt-3">
         {% for page_item in page_items %}
           {% assign item_index = forloop.index0 %}
-          {% capture prefix %}.{{ item_name }}[{{ forloop.index0 }}]{% endcapture %}
+          {% capture prefix %}#{{ block_index }}.{{ item_name }}[{{ forloop.index0 }}]{% endcapture %}
+
           <div class="flex flex-row mb-3">
             {% render "page/edit/item/weight", prefix: prefix, weight: page_item._weight %}
-            <div class="me-4 w-full">
+            <input type="checkbox" class="peer hidden" data-state-store="true" checked id="cb-{{ prefix }}">
+            <div class="me-4 w-full peer-checked:block hidden">
               {% assign placeholder_block_item = placeholder[item_name][item_index] %}
               {%- liquid
                 for attribute in item.attributes
-                  assign selector = "#" | append: block_index | append: prefix | append: "@" | append : attribute
+                  assign selector = prefix | append: "@" | append : attribute
                   assign input_type = inputs[attribute] | default: "text"
                   assign input_type = input_type | append : "/basic"
-                  assign placeholder = placeholder_block_item[attribute] | strip_html
-                  render 'page/edit/field-row', type: input_type, label: attribute, selector: selector, value: page_item[attribute], placeholder: placeholder
+                  assign placeholder = placeholder_block_item[attribute] | strip_html | default: attribute
+                  assign label = attribute | prepend : "<i class='far fa-gear me-1'></i>"
+                  render 'page/edit/field-row', type: input_type, label: label, selector: selector, value: page_item[attribute], placeholder: placeholder
                 endfor
 
                 for field in item.fields
-                  assign selector = "#" | append: block_index | append: prefix | append: "." | append : field
+                  assign selector = prefix | append: "." | append : field
                   assign input_type = inputs[field] | default: "text"
                   assign input_type = input_type | append : "/basic"
                   assign placeholder = placeholder_block_item[field] | strip_html
@@ -62,6 +65,8 @@
                 endfor
               -%}
             </div>
+            <label for="cb-{{ prefix }}" class="cursor-pointer float-end peer-checked:hidden flex items-center justify-between px-2 me-2 w-full bg-gray-200 rounded"><span class="text-gray-400">{{ page_item.name | default: page_item.title }}</span><i class="fa-thin fa-chevron-down"></i></label>
+            <label for="cb-{{ prefix }}" class="cursor-pointer float-end peer-checked:inline hidden pt-1.5 pe-2 me-2"><i class="fa-thin fa-chevron-up"></i></label>
 
             {% render "page/edit/block/item-add-button", index: forloop.index0, page_id:item.id, item_name: item_name, block_index:block_index %}
           </div>
