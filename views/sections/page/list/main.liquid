@@ -7,12 +7,11 @@
   {% if qs != blank %}{% assign qs = '?' | append: qs %}{% endif %}
   <form id="form-list" action="/admin/pages{{ qs }}" method="post"></form>
     <input form="form-list" type="hidden" name="destination" value="/admin/contents/list/{{ page_type }}{{ qs }}">
-    <table id="table" class="table-primary draggable-table">
+    <table id="table" class="table-primary">
       <thead>
       <tr>
         <th></th>
         <th></th>
-        <th>ID</th>
         <th>Name</th>
         <th class="text-center">Weight</th>
         <th class="text-center">Published</th>
@@ -24,11 +23,12 @@
         <tr>
           <td><input form='form-list' type="checkbox" name="chk{{item.id}}" /></td>
           <td>{{ forloop.index }}</td>
-          <td>{{ item.id }}</td>
-          <td class="overflow-hidden max-w-[20rem]"><a href="/admin/{{type.tableName}}/{{item.id}}">{{item.name | truncate: 100}}</a><br><span class="text-xs">{{ item.slug | truncate: 100 }}</span></td>
+          <td class="overflow-hidden md:w-full md:max-w-[40rem] max-w-[5rem] leading-4">
+            <a href="/admin/{{type.tableName}}/{{item.id}}">{{item.name | truncate: 100}}</a><br>
+            <span class="text-xs">/{{ item.slug | truncate: 100 }}</span></td>
           <td class="text-center">
             <input form="form-list" type="text" name="({{ item.id }}):weight" value="{{ item.weight }}"
-            class="mx-auto block w-16 text-center rounded-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+            class="mx-auto block px-0 text-xs w-8 md:text-md md:w-16 text-center rounded-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"/>
           </td>
           <td class="text-center">
             {% if item.published %}
