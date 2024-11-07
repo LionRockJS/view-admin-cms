@@ -14,9 +14,8 @@
         <th></th>
         <th>ID</th>
         <th>Name</th>
-        <th class="text-center">Ordering</th>
+        <th class="text-center">Weight</th>
         <th class="text-center">Published</th>
-        <th class="text-center">Live&nbsp;Ordering</th>
       </tr>
       </thead>
       <tbody class="">
@@ -29,17 +28,23 @@
           <td class="overflow-hidden max-w-[20rem]"><a href="/admin/{{type.tableName}}/{{item.id}}">{{item.name | truncate: 100}}</a><br><span class="text-xs">{{ item.slug | truncate: 100 }}</span></td>
           <td class="text-center">
             <input form="form-list" type="text" name="({{ item.id }}):weight" value="{{ item.weight }}"
-            class="block w-16 me-2 text-center rounded-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+            class="mx-auto block w-16 text-center rounded-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
           </td>
           <td class="text-center">
             {% if item.published %}
               {% if item.synced %}<i class="fa-sharp fa-solid fa-circle-check"></i>{% else %}<i class="fa-sharp fa-light fa-arrows-rotate text-amber-500"></i>{% endif %}
-              {% if item.weight == item.live_weight %}<i class="fa-sharp fa-light fa-scale-balanced"></i>{% else %}<i class="fa-light fa-scale-unbalanced text-amber-500"></i>{% endif %}
+              {% if item.weight == item.live_weight %}
+                <i class="fa-sharp fa-light fa-scale-balanced"></i>
+              {% else %}
+                <span class="relative">
+                  <i class="fa-light fa-scale-unbalanced text-amber-500"></i>
+                  <span class="absolute text-[0.5rem] rounded-full bg-amber-800 text-white text-center w-4 h-4 flex items-center justify-center -right-2 -top-2">{{ item.live_weight }}</span>
+                </span>
+              {% endif %}
             {% else %}
               <button hx-swap="none" hx-post="/admin/pages/{{ item.id }}?language={{ language | default: 'en'}}" name="action" value="publish" class="button-primary">Publish</button>
             {% endif %}
           </td>
-          <td class="text-center" style="width:3em" >{{ item.live_weight | default: '-'}}</td>
         </tr>
       {% endfor %}
       </tbody>
