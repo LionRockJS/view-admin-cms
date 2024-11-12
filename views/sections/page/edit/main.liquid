@@ -1,6 +1,10 @@
-{% assign block_types = section.settings.block_types %}
-{% assign page_type_name = "Default" %}
-{% assign language = language |  default: "en" %}
+{%- liquid
+assign block_lists = block_lists | join : ","
+assign block_types = section.settings.block_types | default: block_lists
+assign page_type_name = "Default"
+assign language = language |  default: "en"
+-%}
+
 <form id="form-search" action="/admin/contents/search/{{ item.page_type }}" method="get"></form>
 <div class="container mx-auto" data-section="sections/page/edit/main">
   <form id="main-form" action="/admin/pages/{{ item.id }}?language={{ language }}" method="post">
@@ -97,7 +101,7 @@ assign page_items = page_items | sort : "_weight"
           {% endfor %}
           <!-- end items -->
 
-          {% render "page/edit/block/container", page_id: item.id, placeholder: placeholders.tokens, block_names: block_names, blocks: blocks, limits: block_types, blocks_blueprint: blocks_blueprint, inputs: inputs %}
+          {% render "page/edit/block/container", page_id: item.id, placeholder: placeholders.tokens, block_names: block_names, blocks: blocks, limits: block_types, blocks_blueprint: blocks_blueprint, inputs: inputs, block_templates: section.settings.block_templates %}
         </div>
       </div>
 
@@ -109,10 +113,9 @@ assign page_items = page_items | sort : "_weight"
             <label for="toggle-tags" class="cursor-pointer float-end peer-checked:hidden inline absolute right-4 top-4 select-none"><i class="fa-thin fa-chevron-down"></i></label>
             <label for="toggle-tags" class="cursor-pointer float-end peer-checked:inline hidden absolute right-4 top-4 select-none"><i class="fa-thin fa-chevron-up"></i></label>
             <div class="hidden peer-checked:block">
-              {% render "page/edit/tag/input", page_id: item.id, label: "Years", tag_group:"Years", tag_options: tags.years, tags: item.tags.years %}
-              {% render "page/edit/tag/input", page_id: item.id, label: "Categories", tag_group:"Categories", tag_options: tags.categories, tags: item.tags.categories %}
-              {% render "page/edit/tag/input", page_id: item.id, label: "Topics", tag_group:"Topics", tag_options: tags.topics, tags: item.tags.topics %}
-              {% render "page/edit/tag/input", page_id: item.id, label: "Collections", tag_group:"Collections", tag_options: tags.collections, tags: item.tags.collections %}
+              {%- for tag_list in tag_lists -%}
+                {% render "page/edit/tag/input", page_id: item.id, label: tag_list, tag_group: tag_list, tag_options: tags[tag_list], tags: item.tags[tag_list] %}
+              {%- endfor -%}
             </div>
           </div>
           <div class="rounded border border-gray-200 bg-gray-100 px-4 p-4 relative mb-4">

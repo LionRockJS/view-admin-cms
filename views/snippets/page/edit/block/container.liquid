@@ -45,7 +45,7 @@
 
         <div class="flex flex-row w-full">
             {% assign placeholder_key = "__" | append: tokens._name %}
-            {% capture tpl %}blocks/{{ tokens._type }}{% endcapture %}
+            {% assign tpl = block_templates[tokens._type] | default: 'blocks/share/edit-scaffold' %}
             {% render tpl, page_id: page_id, tokens: tokens, block_index: block._key, placeholder: placeholder[placeholder_key], blueprint: blocks_blueprint[tokens._type], inputs: inputs %}
         </div>
 
