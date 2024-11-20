@@ -3,12 +3,12 @@
 {% assign page_id = page_id | default: "000" %}
 <div class="pt-1.5 relative">
 {% if index > 0 %}
-    <button type="submit" class="button-delete" name="action" value="item-delete:{{ item_name }}|{{ index }}"><i class="fal fa-times-circle"></i></button>
+    <button type="submit" class="button-delete" name="action" value="item-delete:{{ item_name }}|{{ key }}"><i class="fal fa-times-circle"></i></button>
 {% else %}
     <div class="flex flex-col h-4 {% if length > 1 %}-translate-y-3{% endif %}">
         <button type="submit" class="button-add" name="action" value="item-add:{{ item_name }}"><i class="fas fa-plus-circle"></i></button>
         {% if length > 1 %}
-            <button type="submit" class="button-delete" name="action" value="item-delete:{{ item_name }}|{{ index }}"><i class="fal fa-times-circle"></i></button>
+            <button type="submit" class="button-delete" name="action" value="item-delete:{{ item_name }}|{{ key }}"><i class="fal fa-times-circle"></i></button>
         {% endif %}
     </div>
     <input type="text" pattern="\d+" name="count:{{ item_name }}" value="1"

@@ -100,7 +100,7 @@ assign page_items = page_items | sort : "_weight"
                 <label for="cb-{{ prefix }}" class="cursor-pointer float-end peer-checked:hidden flex items-center justify-between px-2 me-2 w-full bg-gray-200 rounded"><span class="text-gray-400">{{ page_item.name | default: page_item.title }}</span><i class="fa-thin fa-chevron-down"></i></label>
                 <label for="cb-{{ prefix }}" class="cursor-pointer float-end peer-checked:inline hidden pt-1.5 pe-2 me-2"><i class="fa-thin fa-chevron-up"></i></label>
 
-                {% render "page/edit/item/add-button", index: forloop.index0, page_id:item.id, item_name: item_name, length: forloop.length %}
+                {% render "page/edit/item/add-button", index: forloop.index0, page_id:item.id, item_name: item_name, length: forloop.length, key: page_item._key %}
               </div>
             {% endfor %}
           </div>
