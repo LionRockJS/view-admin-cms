@@ -22,7 +22,7 @@ assign language = language |  default: "en"
               assign selector = "@" | append : attribute
               assign input_type = inputs[attribute] | default: "text"
               assign input_type = input_type | append : "/basic"
-              render 'page/edit/field-row', type: input_type, label: attribute, selector: selector, value: tokens[attribute], placeholder: placeholder[attribute]
+              render 'page/edit/field-row', type: input_type, label: attribute, selector: selector, value: tokens[attribute], placeholder: placeholder[attribute], icon:'gear'
             endfor
           -%}
         </div>
@@ -78,7 +78,8 @@ assign page_items = page_items | sort : "_weight"
                       assign input_type = inputs[attribute] | default: "text"
                       assign input_type = input_type | append : "/basic"
                       assign placeholder = placeholders.tokens[item_name][item_index][attribute] | strip_html
-                      render 'page/edit/field-row', type: input_type, label: attribute, selector: selector, value: page_item[attribute], placeholder: placeholder
+                      assign label = attribute
+                      render 'page/edit/field-row', type: input_type, label: label, selector: selector, value: page_item[attribute], placeholder: placeholder, icon: 'gear'
                     endfor
 
                     for field in item.fields
@@ -86,7 +87,8 @@ assign page_items = page_items | sort : "_weight"
                       assign input_type = inputs[field] | default: "text"
                       assign input_type = input_type | append : "/basic"
                       assign placeholder = placeholders.tokens[item_name][item_index][field] | strip_html
-                      render 'page/edit/field-row', type: input_type, label: field, selector: selector, value: page_item[field], placeholder: placeholder
+                      assign label = field
+                      render 'page/edit/field-row', type: input_type, label: label, selector: selector, value: page_item[field], placeholder: placeholder
                     endfor
                   -%}
                 </div>

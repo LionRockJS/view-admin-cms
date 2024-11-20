@@ -1,4 +1,5 @@
-<div class="input-group mb-2">
+{%- assign label_text = label | strip_html -%}
+<div class="relative">
   <span class="input-group-text input-group-icon"><i class="far fa-video"></i></span>
-  <input class="form-control" type="text" name="{{ selector }}" value="{{ value | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;" }}" id="field-{{ label }}-url" placeholder="{{ placeholder | default: label | strip_html }}"/>
+  <input class="form-control" type="text" name="{{ selector }}" value="{{ value | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;" }}" id="field-{{ label }}-url" placeholder="{{ placeholder | default: label_text | strip_html }}"/>
 </div>

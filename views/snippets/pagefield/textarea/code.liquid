@@ -2,16 +2,17 @@
   assign color = color | default: "text-teal-300"
   assign rows = rows | default : 4
   assign h = rows | times: 1 | plus: 2.75
+  assign label_text = label | strip_html
 -%}
 
 <div class="relative">
   <input id="expand-{{ selector }}" type="checkbox" class="peer hidden">
   <label for="expand-{{ selector }}" class="w-full text-right block text-xs"><i class="fa-sharp fa-light fa-arrows-maximize"></i></label>
   <div class="input-code-editor peer-checked:w-[75vw] peer-checked:absolute peer-checked:right-0 relative w-full mb-1 z-10 {{ color }}">
-    <label for="field-{{ selector }}" class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs bg-black rounded">{{ label }}</label>
+    {% render 'pagefield/input-label', selector: selector, label:label, icon:icon %}
     <div class="w-full flex bg-gray-900 rounded text-xs font-mono">
       <textarea readonly class="input-code-editor-lines py-2 w-8 text-right bg-transparent border-0 user-select-none text-gray-500 overflow-hidden" rows="{{ rows }}">1.</textarea>
-      <textarea id="field-{{ selector }}" class="input-code-editor-textarea w-full p-2 bg-transparent border-0" wrap="off" placeholder="{{ placeholder | default: label | truncate: 200  | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;" }}" rows="{{ rows }}">{{ value  | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;" }}</textarea>
+      <textarea id="field-{{ selector }}" class="input-code-editor-textarea w-full p-2 bg-transparent border-0" wrap="off" placeholder="{{ placeholder | default: label_text | truncate: 200  | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;" }}" rows="{{ rows }}">{{ value  | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;" }}</textarea>
     </div>
     <div>
       <span class="input-code-editor-summary text-xs bg-white text-black rounded w-full">&nbsp;</span>

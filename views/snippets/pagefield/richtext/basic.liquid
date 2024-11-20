@@ -1,3 +1,4 @@
+{%- assign label_text = label | strip_html -%}
 <div class="relative">
   <input id="toggle-html-{{ selector | replace: ".", "" }}" type="checkbox" class="peer hidden">
   <div class="block peer-checked:hidden">
@@ -5,7 +6,7 @@
       <label class="text-xs text-gray-500" for="toggle-html-{{ selector | replace: ".", "" }}">HTML <i class="fa-sharp fa-light fa-code"></i></label>
     </div>
     <div class="relative">
-      <label for="field-{{ selector }}" class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900">{{ label }}</label>
+      {% render 'pagefield/input-label', selector: selector, label:label, icon:icon %}
       <div class="flex flex-col w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         <trix-editor input="field-{{ selector }}" class="rich-text-editor" data-selector="{{ selector }}">{{ value | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;" }}</trix-editor>
       </div>
@@ -17,7 +18,7 @@
     </div>
     <div class="relative">
       <label for="field-{{ selector }}" class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900">{{ label }}</label>
-      <textarea type="text" name="{{ selector }}" id="field-{{ selector }}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="{{ placeholder | default: label | truncate: 200 | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;" }}" rows="{{ rows | default : 4 }}">{{ value | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;" }}</textarea>
+      <textarea type="text" name="{{ selector }}" id="field-{{ selector }}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="{{ placeholder | default: label_text | truncate: 200 | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;" }}" rows="{{ rows | default : 4 }}">{{ value | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;" }}</textarea>
     </div>
   </div>
 </div>
