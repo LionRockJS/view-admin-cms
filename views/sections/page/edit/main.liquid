@@ -71,8 +71,7 @@ assign page_items = page_items | sort : "_weight"
 
             <div class="hidden peer-checked:block mt-3">
             {% for page_item in page_items %}
-              {% assign item_index = forloop.index0 %}
-              {% capture prefix %}.{{ item_name }}[{{ forloop.index0 }}]{% endcapture %}
+              {% capture prefix %}.{{ item_name }}[{{ page_item._key }}]{% endcapture %}
 
               <div class="flex flex-row mb-3 pe-8">
                 {% render "page/edit/item/weight", prefix: prefix, weight: page_item._weight %}
@@ -83,7 +82,7 @@ assign page_items = page_items | sort : "_weight"
                       assign selector = prefix | append: "@" | append : attribute
                       assign input_type = inputs[attribute] | default: "text"
                       assign input_type = input_type | append : "/basic"
-                      assign placeholder = placeholders.tokens[item_name][item_index][attribute] | strip_html
+                      assign placeholder = placeholders.tokens[item_name][page_item._key][attribute] | strip_html
                       assign label = attribute
                       render 'page/edit/field-row', type: input_type, label: label, selector: selector, value: page_item[attribute], placeholder: placeholder, icon: 'gear'
                     endfor
@@ -92,7 +91,7 @@ assign page_items = page_items | sort : "_weight"
                       assign selector = prefix | append: "." | append : field
                       assign input_type = inputs[field] | default: "text"
                       assign input_type = input_type | append : "/basic"
-                      assign placeholder = placeholders.tokens[item_name][item_index][field] | strip_html
+                      assign placeholder = placeholders.tokens[item_name][page_item._key][field] | strip_html
                       assign label = field
                       render 'page/edit/field-row', type: input_type, label: label, selector: selector, value: page_item[field], placeholder: placeholder
                     endfor
@@ -101,7 +100,7 @@ assign page_items = page_items | sort : "_weight"
                 <label for="cb-{{ prefix }}" class="cursor-pointer float-end peer-checked:hidden flex items-center justify-between px-2 me-2 w-full bg-gray-200 rounded"><span class="text-gray-400">{{ page_item.name | default: page_item.title }}</span><i class="fa-thin fa-chevron-down"></i></label>
                 <label for="cb-{{ prefix }}" class="cursor-pointer float-end peer-checked:inline hidden pt-1.5 pe-2 me-2"><i class="fa-thin fa-chevron-up"></i></label>
 
-                {% render "page/edit/item/add-button", index: forloop.index0, page_id:item.id, item_name: item_name %}
+                {% render "page/edit/item/add-button", index: forloop.index0, page_id:item.id, item_name: item_name, length: forloop.length %}
               </div>
             {% endfor %}
           </div>
@@ -160,4 +159,7 @@ assign page_items = page_items | sort : "_weight"
       </div>
     </div>
   </form>
+</div>
+<div>
+<textarea class="w-full font-mono text-xs text-white bg-black rounded p-2 h-32">{{ original }}</textarea>
 </div>
