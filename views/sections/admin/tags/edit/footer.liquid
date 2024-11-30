@@ -1,0 +1,7 @@
+{% assign language = language |  default: "en" %}
+<div class="container mx-auto sticky bottom-4 flex flex-row justify-between">
+  <div>
+    <a class="button-danger" href="/admin/tags/delete/{{ item.id }}">Delete</a>
+    <button class="button-primary" type="submit" name="action" value="publish" form="main-form">Save</button>
+  </div>
+</div>

@@ -4,8 +4,8 @@
       "type": "breadcrumb",
       "settings": {
         "text": "{{ item.title }}",
-        "new_label": "New {{ item.page_type }}",
-        "new_url": "/admin/contents/create/{{ item.page_type }}"
+        "new_label": "New Tag",
+        "new_url": "/admin/tags/new"
       },
       "blocks": {
         "link1": {
@@ -18,8 +18,8 @@
         "link2": {
           "type": "link",
           "settings": {
-            "text": "{{item.page_type}}",
-            "url": "/admin/contents/list/{{ item.page_type }}"
+            "text": "Tags",
+            "url": "/admin/tags"
           }
         }},
       "block_order": [
@@ -28,18 +28,18 @@
       ]
     },
     "header": {
-      "type": "page/edit/header",
+      "type": "admin/tags/edit/header",
       "settings": {
       }
     },
     "main": {
-      "type": "page/edit/main",
+      "type": "admin/tags/edit/main",
       "settings": {
         "block_types": ""
       }
     },
     "footer": {
-      "type": "page/edit/footer",
+      "type": "admin/tags/edit/footer",
       "settings": {
       }
     }

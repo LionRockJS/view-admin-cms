@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "header": {
+      "type": "admin/tags/list/header",
+      "settings": {
+      }
+    },
+    "main": {
+      "type": "admin/tags/list/main",
+      "settings": {
+      }
+    },
+    "pagination":{
+      "type": "admin/pagination",
+      "settings": {}
+    }
+  },
+  "order": [
+    "header",
+    "main",
+    "pagination"
+  ]
+}

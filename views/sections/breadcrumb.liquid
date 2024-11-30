@@ -12,7 +12,7 @@
   "presets": []
 }
 {% endschema %}
-<div class="container mx-auto px-4 flex flex-row mb-8">
+<div class="container mx-auto flex flex-row mb-8">
   <nav class="w-9/12 pe-4 hidden sm:flex" aria-label="breadcrumb">
     <ol role="list" class="flex items-center space-x-4 text-sm font-medium">
       <li class="flex items-center"><a class="me-4 text-gray-500 hover:text-gray-700" href="/admin"><i class="fa-solid fa-house"></i></a> <i class="fa-sharp fa-regular fa-chevron-right"></i></li>
@@ -25,6 +25,6 @@
     </ol>
   </nav>
   <div class="w-3/12 text-end">
-    <a class="button-secondary" href="/admin/contents/create/{{ item.page_type }}">New {{ item.page_type }}</a>
+    <a class="button-secondary" href="{{ section.settings.new_url }}">{{ section.settings.new_label }}</a>
   </div>
 </div>
