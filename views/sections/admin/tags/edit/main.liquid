@@ -1,5 +1,7 @@
-<form id="main-form" action="/admin/tags/{{ item.id }}?language={{ language |  default: "en" }}" method="post" class="container mx-auto">
-  <div id="page-attributes" class="rounded border border-gray-200 bg-gray-100 p-4 mb-4">
+<form id="main-form" action="/admin/tags/{{ item.id }}?language={{ language |  default: "en" }}" method="post"
+      class="bg-neutral-700 text-white"
+>
+  <div id="page-attributes" class="p-4 mb-4">
     <input type="checkbox" class="peer hidden" data-state-store="true" checked="checked" id="panel_attributes">
     <label class="cursor-pointer select-none text-xl font-serif me-2" for="panel_attributes"><i class="fa-regular fa-gear"></i> Settings</label>
     <label for="panel_attributes" class="select-none cursor-pointer float-end peer-checked:hidden inline"><i class="fa-thin fa-chevron-down" aria-hidden="true"></i></label>
@@ -51,7 +53,7 @@
     </div>
   </div>
 
-  <div class="container">
+  <div class="container mx-auto">
     <div class="flex lg:flex-row flex-col">
       <div class="lg:w-9/12 lg:pe-4">
         <div class="mb-4 button-secondary sticky top-20 z-10">

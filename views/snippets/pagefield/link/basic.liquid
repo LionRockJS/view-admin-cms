@@ -1,8 +1,14 @@
 {%- assign label_text = label | strip_html -%}
 <div class="relative">
-    <label for="field-{{ selector }}" class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900">{% if icon != blank %}<i class="far fa-{{ icon }} me-1"></i>{% endif %}{{ label }} <i class="far fa-link"></i></label>
-    <div class="grid grid-cols-2 gap-2">
-        <input type="text" name="{{ selector }}__label" id="field-{{ selector }}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="{{ placeholder.label | default: 'label' }}" value="{{ value.label | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;" }}">
-        <input type="text" name="{{ selector }}__url" id="field-{{ selector }}-url" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="{{ placeholder.url | default: "https://example.com" }}" value="{{ value.url | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;" }}">
+    {% render 'pagefield/input-label', selector: selector, label:label, icon:icon %}
+    <div>
+        <input type="text" name="{{ selector }}__label" id="field-{{ selector }}"
+               placeholder="{{ placeholder.label | default: 'label' }}"
+               class="block w-full border-0 p-0 font-light bg-transparent focus:border-0 focus:ring-2 focus:ring-inset focus:ring-transparent {{ class_name }}"
+               value="{{ value.label | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;" }}">
+        <input type="text" name="{{ selector }}__url" id="field-{{ selector }}-url"
+               placeholder="{{ placeholder.url | default: "https://example.com" }}"
+               class="block w-full border-0 p-0 font-light bg-transparent focus:border-0 focus:ring-2 focus:ring-inset focus:ring-transparent text-xs{{ class_name }}"
+               value="{{ value.url | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;" }}">
     </div>
 </div>

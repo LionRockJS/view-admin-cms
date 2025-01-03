@@ -1,1 +1,3 @@
-<label for="field-{{ selector }}" class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900">{% if icon != blank %}<i class="far fa-{{ icon }} me-1"></i>{% endif %}{{ label }}</label>
+<label for="field-{{ selector }}"
+       class="bg-black px-2 py-0.5 uppercase text-2xs hidden group-hover:block absolute select-none -left-2 -top-3 rounded"
+>{% if icon != blank %}<i class="far fa-{{ icon }} me-1"></i>{% endif %}{{ label }}</label>

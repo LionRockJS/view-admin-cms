@@ -12,16 +12,18 @@ assign language = language |  default: "en"
   </datalist>
 {%- endfor -%}
 <form id="form-search" action="/admin/contents/search/{{ item.page_type }}" method="get"></form>
+
+<div class="bg-neutral-700 text-white tracking-wide">
 <div class="container mx-auto" data-section="sections/page/edit/main">
   <form id="main-form" action="/admin/pages/{{ item.id }}?language={{ language }}" method="post">
-    <div id="page-attributes" class="rounded border border-gray-200 bg-gray-100 p-4 mb-4">
+    <div id="page-attributes" class="text-amber-400">
       <input type="checkbox" class="peer hidden" data-state-store="true" checked="checked" id="panel_attributes">
-      <label class="cursor-pointer select-none text-xl font-serif me-2" for="panel_attributes"><i class="fa-regular fa-gear"></i> Settings</label>
+      <label class="cursor-pointer select-none font-bold uppercase text-sm" for="panel_attributes"><i class="fa-regular fa-gear"></i> Settings</label>
       <label for="panel_attributes" class="select-none cursor-pointer float-end peer-checked:hidden inline"><i class="fa-thin fa-chevron-down" aria-hidden="true"></i></label>
       <label for="panel_attributes" class="select-none cursor-pointer float-end peer-checked:inline hidden"><i class="fa-thin fa-chevron-up" aria-hidden="true"></i></label>
 
       <div class="hidden peer-checked:block mt-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div  class="grid grid-cols-2 gap-4 mb-4">
           <!-- attributes -->
           {%- liquid
             for attribute in attributes
@@ -36,11 +38,11 @@ assign language = language |  default: "en"
     </div>
     <div class="flex lg:flex-row flex-col">
       <div class="lg:w-9/12 lg:pe-4">
-        <div class="mb-4 button-secondary sticky top-20 z-10">
+        <div class="mb-4 sticky top-20 z-10 text-sm">
           {% render "page/edit/language", language: language, form: "main-form" %}
         </div>
 
-        <div>
+        <div class="grid grid-cols-2 gap-4 mb-4">
           <!-- values --->
 {%- liquid
 for field in fields
@@ -51,65 +53,7 @@ for field in fields
   render 'page/edit/field-row', type: input_type, label: field, selector: selector, value: tokens[field], placeholder: placeholder
 endfor
 -%}
-
-
-          <!-- items -->
-          {% for item in items %}
-          <div class="border-b border-gray-300 pb-3 mb-3">
-{%- liquid
-assign item_name = item.name
-assign item_label = item.name | capitalize
-assign default_items = " " |  split: ","
-assign page_items = tokens[item_name] | default: default_items
-assign page_items = page_items | sort : "_weight"
-  assign key = "." | append: forloop.index0 | append: item_name | md5
--%}
-            <label class="text-xl font-serif me-2" for="{{ key }}"><i class="far fa-copy me-2"></i>{{ item_label }}</label>
-            <input type="checkbox" class="peer hidden" data-state-store="true" checked id="{{ key }}">
-            <label for="{{ key }}" class="float-end peer-checked:hidden inline"><i class="fa-thin fa-chevron-down"></i></label>
-            <label for="{{ key }}" class="float-end peer-checked:inline hidden"><i class="fa-thin fa-chevron-up"></i></label>
-
-            <div class="hidden peer-checked:block mt-3">
-            {% for page_item in page_items %}
-              {% capture prefix %}.{{ item_name }}[{{ page_item._key }}]{% endcapture %}
-
-              <div class="flex flex-row mb-3 pe-8">
-                {% render "page/edit/item/weight", prefix: prefix, weight: page_item._weight %}
-                <input type="checkbox" class="peer hidden" data-state-store="true" checked id="cb-{{ prefix }}">
-                <div class="me-4 w-full peer-checked:block hidden">
-                  {%- liquid
-                    for attribute in item.attributes
-                      assign selector = prefix | append: "@" | append : attribute
-                      assign input_type = inputs[attribute] | default: "text"
-                      assign input_type = input_type | append : "/basic"
-                      assign placeholder = placeholders.tokens[item_name][page_item._key][attribute] | strip_html
-                      assign label = attribute
-                      render 'page/edit/field-row', type: input_type, label: label, selector: selector, value: page_item[attribute], placeholder: placeholder, icon: 'gear'
-                    endfor
-
-                    for field in item.fields
-                      assign selector = prefix | append: "." | append : field
-                      assign input_type = inputs[field] | default: "text"
-                      assign input_type = input_type | append : "/basic"
-                      assign placeholder = placeholders.tokens[item_name][page_item._key][field] | strip_html
-                      assign label = field
-                      render 'page/edit/field-row', type: input_type, label: label, selector: selector, value: page_item[field], placeholder: placeholder
-                    endfor
-                  -%}
-                </div>
-                <label for="cb-{{ prefix }}" class="cursor-pointer float-end peer-checked:hidden flex items-center justify-between px-2 me-2 w-full bg-gray-200 rounded"><span class="text-gray-400">{{ page_item.name | default: page_item.title }}</span><i class="fa-thin fa-chevron-down"></i></label>
-                <label for="cb-{{ prefix }}" class="cursor-pointer float-end peer-checked:inline hidden pt-1.5 pe-2 me-2"><i class="fa-thin fa-chevron-up"></i></label>
-
-                {% render "page/edit/item/add-button", index: forloop.index0, page_id:item.id, item_name: item_name, length: forloop.length, key: page_item._key %}
-              </div>
-            {% endfor %}
-          </div>
-          </div>
-          {% endfor %}
-          <!-- end items -->
-
-          {% render "page/edit/block/container", page_id: item.id, placeholder: placeholders.tokens, block_names: block_names, blocks: blocks, limits: block_types, blocks_blueprint: blocks_blueprint, inputs: inputs, block_templates: section.settings.block_templates %}
-        </div>
+    </div>
       </div>
 
       <div class="lg:w-3/12">
@@ -159,4 +103,66 @@ assign page_items = page_items | sort : "_weight"
       </div>
     </div>
   </form>
+</div>
+</div>
+
+<div class="bg-white text-neutral-700">
+  <div class="container mx-auto">
+    <!-- items -->
+    {% for item in items %}
+      <div class="border-b border-gray-300 pb-3 mb-3">
+        {%- liquid
+          assign item_name = item.name
+          assign item_label = item.name | capitalize
+          assign default_items = " " |  split: ","
+          assign page_items = tokens[item_name] | default: default_items
+          assign page_items = page_items | sort : "_weight"
+          assign key = "." | append: forloop.index0 | append: item_name | md5
+        -%}
+        <label class="text-xl font-serif me-2" for="{{ key }}"><i class="far fa-copy me-2"></i>{{ item_label }}</label>
+        <input type="checkbox" class="peer hidden" data-state-store="true" checked id="{{ key }}">
+        <label for="{{ key }}" class="float-end peer-checked:hidden inline"><i class="fa-thin fa-chevron-down"></i></label>
+        <label for="{{ key }}" class="float-end peer-checked:inline hidden"><i class="fa-thin fa-chevron-up"></i></label>
+
+        <div class="hidden peer-checked:block mt-3">
+          {% for page_item in page_items %}
+            {% capture prefix %}.{{ item_name }}[{{ page_item._key }}]{% endcapture %}
+
+            <div class="flex flex-row mb-3 pe-8">
+              {% render "page/edit/item/weight", prefix: prefix, weight: page_item._weight %}
+              <input type="checkbox" class="peer hidden" data-state-store="true" checked id="cb-{{ prefix }}">
+              <div class="me-4 w-full peer-checked:block hidden">
+                {%- liquid
+                  for attribute in item.attributes
+                    assign selector = prefix | append: "@" | append : attribute
+                    assign input_type = inputs[attribute] | default: "text"
+                    assign input_type = input_type | append : "/basic"
+                    assign placeholder = placeholders.tokens[item_name][page_item._key][attribute] | strip_html
+                    assign label = attribute
+                    render 'page/edit/field-row', type: input_type, label: label, selector: selector, value: page_item[attribute], placeholder: placeholder, icon: 'gear'
+                  endfor
+
+                  for field in item.fields
+                    assign selector = prefix | append: "." | append : field
+                    assign input_type = inputs[field] | default: "text"
+                    assign input_type = input_type | append : "/basic"
+                    assign placeholder = placeholders.tokens[item_name][page_item._key][field] | strip_html
+                    assign label = field
+                    render 'page/edit/field-row', type: input_type, label: label, selector: selector, value: page_item[field], placeholder: placeholder
+                  endfor
+                -%}
+              </div>
+              <label for="cb-{{ prefix }}" class="cursor-pointer float-end peer-checked:hidden flex items-center justify-between px-2 me-2 w-full bg-gray-200 rounded"><span class="text-gray-400">{{ page_item.name | default: page_item.title }}</span><i class="fa-thin fa-chevron-down"></i></label>
+              <label for="cb-{{ prefix }}" class="cursor-pointer float-end peer-checked:inline hidden pt-1.5 pe-2 me-2"><i class="fa-thin fa-chevron-up"></i></label>
+
+              {% render "page/edit/item/add-button", index: forloop.index0, page_id:item.id, item_name: item_name, length: forloop.length, key: page_item._key %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+    <!-- end items -->
+
+    {% render "page/edit/block/container", page_id: item.id, placeholder: placeholders.tokens, block_names: block_names, blocks: blocks, limits: block_types, blocks_blueprint: blocks_blueprint, inputs: inputs, block_templates: section.settings.block_templates %}
+  </div>
 </div>
