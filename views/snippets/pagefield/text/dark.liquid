@@ -4,14 +4,13 @@
   assign placeholder = placeholder | default: label_text | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
 %}
 
-{%- assign label_text = label | strip_html -%}
-<div class="relative">
-  <span class="input-group-text input-group-icon"><i class="far fa-video"></i></span>
-  <input class="form-control"
-         type="text"
-         name="{{ selector }}"
-         value="{{ value_attribute }}" id="field-{{ label }}-url"
+<div class="relative w-full group">
+  <label for="field-{{ selector }}"></label>
+  <input type="text" name="{{ selector }}"
+         id="field-{{ selector }}"
+         class="text-center text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-black grow p-0 text-white rounded-full placeholder:text-gray-800 focus:outline-none focus:text-gray-400"
+         value="{{ value_attribute }}"
          placeholder="{{ placeholder }}"
          {% if form != blank %}form="{{ form }}"{% endif %}
-  />
+  >
 </div>

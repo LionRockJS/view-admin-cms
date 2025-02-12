@@ -3,6 +3,7 @@ assign block_lists = block_lists | join : ","
 assign block_types = section.settings.block_types | default: block_lists
 assign page_type_name = "Default"
 assign language = language |  default: "en"
+assign page_id = item.id
 -%}
 {%- for page_list in page_lists -%}
   <datalist id="page_{{ page_list.type }}_datalist">
@@ -11,106 +12,65 @@ assign language = language |  default: "en"
     {%- endfor -%}
   </datalist>
 {%- endfor -%}
+
 <form id="form-search" action="/admin/contents/search/{{ item.page_type }}" method="get"></form>
 
-<div class="bg-neutral-700 text-white tracking-wide">
-<div class="container mx-auto" data-section="sections/page/edit/main">
-  <form id="main-form" action="/admin/pages/{{ item.id }}?language={{ language }}" method="post">
-    <div id="page-attributes" class="text-amber-400">
-      <input type="checkbox" class="peer hidden" data-state-store="true" checked="checked" id="panel_attributes">
-      <label class="cursor-pointer select-none font-bold uppercase text-sm" for="panel_attributes"><i class="fa-regular fa-gear"></i> Settings</label>
-      <label for="panel_attributes" class="select-none cursor-pointer float-end peer-checked:hidden inline"><i class="fa-thin fa-chevron-down" aria-hidden="true"></i></label>
-      <label for="panel_attributes" class="select-none cursor-pointer float-end peer-checked:inline hidden"><i class="fa-thin fa-chevron-up" aria-hidden="true"></i></label>
+<form id="main-form" action="/admin/pages/{{ page_id }}?language={{ language }}" method="post"></form>
+<div class="flex flex-col w-full md:w-[545px] bg-paper border-x border-black-500 min-h-[100vh] py-[144px] font-sans">
+  <div class="px-[24px] md:px-[55px] mt-20">
+    <h1 class="text-7xl text-primary font-bold mb-4">Edit {{ page_type_name }}</h1>
+  </div>
 
-      <div class="hidden peer-checked:block mt-4">
-        <div  class="grid grid-cols-2 gap-4 mb-4">
-          <!-- attributes -->
-          {%- liquid
-            for attribute in attributes
-              assign selector = "@" | append : attribute
-              assign input_type = inputs[attribute] | default: "text"
-              assign input_type = input_type | append : "/basic"
-              render 'page/edit/field-row', type: input_type, label: attribute, selector: selector, value: tokens[attribute], placeholder: placeholder[attribute], icon:'gear'
-            endfor
-          -%}
-        </div>
+  <div class="order-last z-10">
+    <div class="flex">
+      <div class="min-w-[24px] md:min-w-[55px] flex justify-center items-center">
+      </div>
+      <div class="w-full">
+        <button form="main-form" type="submit"
+                class="transition duration-500 w-full rounded-lg px-3 py-2 uppercase text-base leading-8 font-sans text-white {% if published %}bg-gray-700 hover:bg-gray-900{% else %}bg-primary hover:bg-highlight{% endif %} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >Save Draft</button>
+        {% if published %}
+          {% if sync != true%}<button class="button-secondary" type="submit" name="action" value="revert" form="main-form">Revert Published</button>{% endif %}
+          <button class="button-primary" type="submit" name="action" value="publish" form="main-form">Save</button>
+        {% endif %}
+      </div>
+      <div class="min-w-[55px]">
+
       </div>
     </div>
-    <div class="flex lg:flex-row flex-col">
-      <div class="lg:w-9/12 lg:pe-4">
-        <div class="mb-4 sticky top-20 z-10 text-sm">
-          {% render "page/edit/language", language: language, form: "main-form" %}
-        </div>
-
-        <div class="grid grid-cols-2 gap-4 mb-4">
-          <!-- values --->
-{%- liquid
-for field in fields
-  assign selector = "." | append : field
-  assign input_type = inputs[field] | default: "text"
-  assign input_type = input_type | append : "/basic"
-  assign placeholder = placeholders.tokens[field] | strip_html
-  render 'page/edit/field-row', type: input_type, label: field, selector: selector, value: tokens[field], placeholder: placeholder
-endfor
--%}
+    <div class="px-[24px] md:px-[55px]">
+      <a class="button-danger" href="/admin/pages/delete/{{ item.id }}">Delete</a>
     </div>
-      </div>
+  </div>
 
-      <div class="lg:w-3/12">
-        <div class="sticky top-20">
-          <div id="page-tags" class="rounded border border-gray-200 bg-gray-100 px-4 p-4 relative mb-4">
-            <h5>Tags</h5>
-            <input type="checkbox" class="peer hidden" data-state-store="true" checked id="toggle-tags">
-            <label for="toggle-tags" class="cursor-pointer float-end peer-checked:hidden inline absolute right-4 top-4 select-none"><i class="fa-thin fa-chevron-down"></i></label>
-            <label for="toggle-tags" class="cursor-pointer float-end peer-checked:inline hidden absolute right-4 top-4 select-none"><i class="fa-thin fa-chevron-up"></i></label>
-            <div class="hidden peer-checked:block">
-              {%- for tag_list in tag_lists -%}
-                {% render "page/edit/tag/input", page_id: item.id, label: tag_list, tag_group: tag_list, tag_options: tags[tag_list], tags: item.tags[tag_list] %}
-              {%- endfor -%}
-            </div>
-          </div>
-          <div class="rounded border border-gray-200 bg-gray-100 px-4 p-4 relative mb-4">
-            <h5>Commands</h5>
+  <!-- attributes -->
+  <div id="page-attributes" class="min-h-8 mt-16 my-4">
+    <input type="checkbox" class="peer hidden" data-state-store="true" checked="checked" id="toggle-attributes">
+    <label for="toggle-attributes" class="peer-checked:hidden absolute cursor-pointer select-none bg-primary flex pe-6 py-1">
+      <span class="text-white min-w-[24px] md:min-w-[55px] flex justify-center items-center"><i class="fa-regular fa-gear"></i></span>
+      <span class="font-bold text-white" >Settings</span>
+    </label>
 
-            <input type="checkbox" class="peer hidden" data-state-store="true" checked id="toggle-cmd">
-            <label for="toggle-cmd" class="cursor-pointer float-end peer-checked:inline hidden absolute right-4 top-4 select-none"><i class="fa-thin fa-chevron-down"></i></label>
-            <label for="toggle-cmd" class="cursor-pointer float-end peer-checked:hidden inline absolute right-4 top-4 select-none"><i class="fa-thin fa-chevron-up"></i></label>
-
-            <div class="block peer-checked:hidden">
-              {% render "pagefield/textarea/code", label: "data", selector: "cmd-input", value: "", rows: 16, placeholder: "paste content here" %}
-              {% render "pagefield/textarea/code", label: "data fields map to key", selector: "cmd-mapping", value: "", rows: 8, placeholder: "keys", color: "text-amber-500" %}
-
-              <div class="relative w-full">
-                <label for="cmd-selector" class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900 bg-gray-100">selector</label>
-                <input id="cmd-selector" type="text" class="text-xs block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"/>
-              </div>
-              <div class="flex">
-                <span id="cmd-copy" class="button-secondary text-xs my-1">Copy ID</span>
-                <span id="cmd-clean" class="button-secondary text-xs my-1">Clean</span>
-                <span id="cmd-run" class="button-secondary text-xs my-1">Run</span>
-              </div>
-
-              <div class="text-xs">Available selectors:
-                <ul>
-                  <li>${i} loop index</li>
-                  <li>${key} key</li>
-                  <li>----- item separator</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div class="hidden peer-checked:flex">
+      {% render "side-toggle", selector: "attributes", color: "primary", hover_color: "highlight", icon: "gear" %}
+      <div class="grid grid-cols-3 gap-3">
+        {%  render 'page/edit/scaffold-input', items: attributes, key: "@", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens, values: tokens, icon: 'gear', form: "main-form" %}
       </div>
     </div>
-  </form>
-</div>
-</div>
+  </div>
 
-<div class="bg-white text-neutral-700">
-  <div class="container mx-auto">
+  <div class="sticky top-[160px] mt-12 mb-6 z-10">
+    {% render "page/edit/language", language: language, form: "main-form" %}
+  </div>
+
+  <div class="mb-12">
+    {%  render 'page/edit/scaffold-input', items: fields, key: ".", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens, values: tokens, expandable: true, form: "main-form" %}
+  </div>
+
+  <div class="mb-12">
     <!-- items -->
     {% for item in items %}
-      <div class="border-b border-gray-300 pb-3 mb-3">
+      <div class="min-h-8 mb-4">
         {%- liquid
           assign item_name = item.name
           assign item_label = item.name | capitalize
@@ -119,50 +79,158 @@ endfor
           assign page_items = page_items | sort : "_weight"
           assign key = "." | append: forloop.index0 | append: item_name | md5
         -%}
-        <label class="text-xl font-serif me-2" for="{{ key }}"><i class="far fa-copy me-2"></i>{{ item_label }}</label>
-        <input type="checkbox" class="peer hidden" data-state-store="true" checked id="{{ key }}">
-        <label for="{{ key }}" class="float-end peer-checked:hidden inline"><i class="fa-thin fa-chevron-down"></i></label>
-        <label for="{{ key }}" class="float-end peer-checked:inline hidden"><i class="fa-thin fa-chevron-up"></i></label>
 
-        <div class="hidden peer-checked:block mt-3">
-          {% for page_item in page_items %}
+        <input type="checkbox" class="peer hidden" data-state-store="true" checked="checked" id="toggle-{{ key }}">
+        <label class="peer-checked:w-0 peer-checked:px-0 transition-[width] w-auto absolute overflow-hidden inline-block cursor-pointer select-none font-bold text-white bg-gray-400 ps-[24px] md:ps-[55px] pe-6 py-1" for="toggle-{{ key }}">{{ item_label }}<i class="far fa-copy ms-2"></i></label>
+
+        <div class="hidden peer-checked:flex">
+          <label
+              for="toggle-{{ key }}"
+              class="-translate-x-[1px] cursor-pointer select-none transition duration-300 flex justify-center min-w-[24px] md:min-w-[55px] border-l-[2px] border-dotted border-gray-400 hover:border-highlight"
+          ><i class="pt-[0.3rem] fa-light fa-grid-2"></i></label>
+
+          <div class="w-full relative">
+            <!-- item name -->
+            <form
+                action="/admin/pages/{{ page_id }}?language={{ language }}"
+                method="post"
+                class="flex items-center mb-4"
+            >
+              <label for="toggle-{{ key }}" class="block font-bold cursor-pointer select-none hover:text-highlight">{{ item_name | capitalize }}</label>
+              <button type="submit" class="button-add mx-2" name="action" value="item-add:{{ item_name }}"><i class="fas fa-circle-plus"></i></button>
+              <input type="text" pattern="\d+" name="count:{{ item_name }}" value="1"
+                     class="w-8 text-center bg-black text-white rounded-full py-0.5 text-sm">
+            </form>
+
+            <!-- item list -->
+            <div class="md:grid md:grid-cols-2 md:gap-y-4 md:gap-x-[55px]">
+            {% for page_item in page_items %}
             {% capture prefix %}.{{ item_name }}[{{ page_item._key }}]{% endcapture %}
-
-            <div class="flex flex-row mb-3 pe-8">
-              {% render "page/edit/item/weight", prefix: prefix, weight: page_item._weight %}
-              <input type="checkbox" class="peer hidden" data-state-store="true" checked id="cb-{{ prefix }}">
-              <div class="me-4 w-full peer-checked:block hidden">
-                {%- liquid
-                  for attribute in item.attributes
-                    assign selector = prefix | append: "@" | append : attribute
-                    assign input_type = inputs[attribute] | default: "text"
-                    assign input_type = input_type | append : "/basic"
-                    assign placeholder = placeholders.tokens[item_name][page_item._key][attribute] | strip_html
-                    assign label = attribute
-                    render 'page/edit/field-row', type: input_type, label: label, selector: selector, value: page_item[attribute], placeholder: placeholder, icon: 'gear'
-                  endfor
-
-                  for field in item.fields
-                    assign selector = prefix | append: "." | append : field
-                    assign input_type = inputs[field] | default: "text"
-                    assign input_type = input_type | append : "/basic"
-                    assign placeholder = placeholders.tokens[item_name][page_item._key][field] | strip_html
-                    assign label = field
-                    render 'page/edit/field-row', type: input_type, label: label, selector: selector, value: page_item[field], placeholder: placeholder
-                  endfor
-                -%}
+            <div class="relative">
+              <div class="absolute left-[-24px] md:left-[-55px] w-[24px] md:w-[55px] flex justify-center">
+                {% render "page/edit/item/weight", prefix: prefix, weight: page_item._weight, form: "main-form" %}
               </div>
-              <label for="cb-{{ prefix }}" class="cursor-pointer float-end peer-checked:hidden flex items-center justify-between px-2 me-2 w-full bg-gray-200 rounded"><span class="text-gray-400">{{ page_item.name | default: page_item.title }}</span><i class="fa-thin fa-chevron-down"></i></label>
-              <label for="cb-{{ prefix }}" class="cursor-pointer float-end peer-checked:inline hidden pt-1.5 pe-2 me-2"><i class="fa-thin fa-chevron-up"></i></label>
+              <div class="flex flex-row">
+                <input type="checkbox" class="peer hidden" data-state-store="true" checked id="cb-{{ prefix }}">
+                <div class="w-full peer-checked:block hidden">
+                  {%- liquid
+                    render 'page/edit/scaffold-input', items: item.attributes, key: "@", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens[item_name][page_item._key], values: page_item, icon: 'gear', form: "main-form"
+                    render 'page/edit/scaffold-input', items: item.fields, key: ".", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens[item_name][page_item._key], values: page_item, form: "main-form"
+                  -%}
+                </div>
+                <label for="cb-{{ prefix }}" class="cursor-pointer float-end peer-checked:hidden flex items-center justify-between px-2 me-2 w-full bg-gray-200 rounded"><span class="text-gray-400">{{ page_item.name | default: page_item.title }}</span><i class="fa-thin fa-chevron-down"></i></label>
+                <label for="cb-{{ prefix }}" class="cursor-pointer float-end peer-checked:inline hidden pt-1.5 pe-2 me-2"><i class="fa-thin fa-chevron-up"></i></label>
 
-              {% render "page/edit/item/add-button", index: forloop.index0, page_id:item.id, item_name: item_name, length: forloop.length, key: page_item._key %}
+                <div class="pt-1.5 w-4 me-2">
+                  {% if forloop.length > 1 %}
+                  <button type="submit" name="action" value="item-delete:{{ item_name }}|{{ page_item._key }}" form="main-form"><i class="fal fa-times"></i></button>
+                  {% endif %}
+                </div>
+
+              </div>
             </div>
           {% endfor %}
+            </div>
+          </div>
+          <div class="min-w-[24px] md:min-w-[55px]"></div>
         </div>
+
       </div>
     {% endfor %}
     <!-- end items -->
 
-    {% render "page/edit/block/container", page_id: item.id, placeholder: placeholders.tokens, block_names: block_names, blocks: blocks, limits: block_types, blocks_blueprint: blocks_blueprint, inputs: inputs, block_templates: section.settings.block_templates %}
+  </div>
+
+  <div id="page-blocks" class="my-4">
+    <input type="checkbox" class="peer hidden" data-state-store="true" checked="checked" id="toggle-blocks">
+    <label class="peer-checked:hidden peer-checked:px-0 absolute -translate-x-[3px] rounded cursor-pointer select-none text-white bg-black px-6 py-2 z-10 leading-8 shadow-sm" for="toggle-blocks"><i class="fa-solid fa-grip-dots"></i></label>
+
+    <div class="hidden peer-checked:flex mb-4">
+      <label for="toggle-blocks" class="-translate-x-[3px] cursor-pointer transition duration-300 flex justify-center min-w-[24px] md:min-w-[55px] border-l-[5px] border-black hover:border-highlight"><i class="pt-[0.3rem] fa-solid fa-grid-2-plus"></i></label>
+      {% assign limit_blocks = limits | split : "," %}
+      <div id="add-block" class="flex flex-row items-center">
+          <div class="relative w-full">
+            <label for="block-select" class="hidden">Available Blocks</label>
+            <select id="block-select" name="block-select"
+                    class="border-none bg-transparent font-bold"
+                    form="main-form"
+            >
+              <option value="">Content Blocks</option>
+              {% if limits != blank %}
+                {% for block_name in limit_blocks %}
+                  <option value="{{ block_name }}">{{ block_name }}</option>
+                {% endfor %}
+              {% else %}
+                {% for block_name in block_names %}
+                  <option value="{{ block_name }}">{{ block_name }}</option>
+                {% endfor %}
+              {% endif %}
+            </select>
+          </div>
+
+          <div>
+            <button type="submit"
+                    class="btn btn-primary"
+                    name="action"
+                    value="block-add"
+                    form="main-form"
+            >
+              <i class="fas fa-plus-circle" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      <div class="min-w-[24px] md:min-w-[55px]"></div>
+    </div>
+
+    <div class="hidden peer-checked:flex w-full">
+      {% render "page/edit/block/container", page_id: item.id, placeholder: placeholders.tokens, block_names: block_names, blocks: blocks, limits: block_types, blocks_blueprint: blocks_blueprint, inputs: inputs, block_templates: section.settings.block_templates, form: "main-form" %}
+    </div>
+  </div>
+
+
+  <div>
+    <div>
+      <div id="page-tags" class="rounded border border-gray-200 bg-gray-100 px-4 p-4 relative mb-4">
+        <h5>Tags</h5>
+        <input type="checkbox" class="peer hidden" data-state-store="true" checked id="toggle-tags">
+        <label for="toggle-tags" class="cursor-pointer float-end peer-checked:hidden inline absolute right-4 top-4 select-none"><i class="fa-thin fa-chevron-down"></i></label>
+        <label for="toggle-tags" class="cursor-pointer float-end peer-checked:inline hidden absolute right-4 top-4 select-none"><i class="fa-thin fa-chevron-up"></i></label>
+        <div class="hidden peer-checked:block">
+          {%- for tag_list in tag_lists -%}
+            {% render "page/edit/tag/input", page_id: item.id, label: tag_list, tag_group: tag_list, tag_options: tags[tag_list], tags: item.tags[tag_list] %}
+          {%- endfor -%}
+        </div>
+      </div>
+      <div class="rounded border border-gray-200 bg-gray-100 px-4 p-4 relative mb-4">
+        <h5>Commands</h5>
+
+        <input type="checkbox" class="peer hidden" data-state-store="true" checked id="toggle-cmd">
+        <label for="toggle-cmd" class="cursor-pointer float-end peer-checked:inline hidden absolute right-4 top-4 select-none"><i class="fa-thin fa-chevron-down"></i></label>
+        <label for="toggle-cmd" class="cursor-pointer float-end peer-checked:hidden inline absolute right-4 top-4 select-none"><i class="fa-thin fa-chevron-up"></i></label>
+
+        <div class="block peer-checked:hidden">
+          {% render "pagefield/textarea/code", label: "data", selector: "cmd-input", value: "", rows: 16, placeholder: "paste content here" %}
+          {% render "pagefield/textarea/code", label: "data fields map to key", selector: "cmd-mapping", value: "", rows: 8, placeholder: "keys", color: "text-amber-500" %}
+
+          <div class="relative w-full">
+            <label for="cmd-selector" class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900 bg-gray-100">selector</label>
+            <input id="cmd-selector" type="text" class="text-xs block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"/>
+          </div>
+          <div class="flex">
+            <span id="cmd-copy" class="button-secondary text-xs my-1">Copy ID</span>
+            <span id="cmd-clean" class="button-secondary text-xs my-1">Clean</span>
+            <span id="cmd-run" class="button-secondary text-xs my-1">Run</span>
+          </div>
+
+          <div class="text-xs">Available selectors:
+            <ul>
+              <li>${i} loop index</li>
+              <li>${key} key</li>
+              <li>----- item separator</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

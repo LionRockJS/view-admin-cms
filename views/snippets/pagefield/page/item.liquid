@@ -1,3 +1,9 @@
+{% liquid
+    assign label_text = label | strip_html
+    assign value_attribute = value | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+    assign placeholder = placeholder | default: label_text | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+%}
+
 <div class="input-group mb-2">
     <span class="input-group-text input-group-icon"><i class="fas fa-sticky-note"></i></span>
     <label for="{{ selector }}" class="visually-hidden">{{ label }}</label>

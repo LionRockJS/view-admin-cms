@@ -1,4 +1,9 @@
-{%- assign label_text = label | strip_html -%}
+{% liquid
+  assign label_text = label | strip_html
+  assign value_attribute = value | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+  assign placeholder = placeholder | default: label_text | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+%}
+
 <div class="relative">
   <input id="toggle-html-{{ selector | replace: ".", "" }}" type="checkbox" class="peer hidden">
   <div class="block peer-checked:hidden">

@@ -1,53 +1,20 @@
 {
+  "wrapper": "div.container.mx-auto.flex.flex-col.lg:flex-row",
   "sections": {
-    "breadcrumb": {
-      "type": "breadcrumb",
-      "settings": {
-        "text": "{{ item.title }}",
-        "new_label": "New {{ item.page_type }}",
-        "new_url": "/admin/contents/create/{{ item.page_type }}"
-      },
-      "blocks": {
-        "link1": {
-          "type": "link",
-          "settings": {
-              "text": "Home",
-              "url": "/admin"
-          }
-        },
-        "link2": {
-          "type": "link",
-          "settings": {
-            "text": "{{item.page_type}}",
-            "url": "/admin/contents/list/{{ item.page_type }}"
-          }
-        }},
-      "block_order": [
-        "link1",
-        "link2"
-      ]
-    },
-    "header": {
-      "type": "page/edit/header",
-      "settings": {
-      }
-    },
     "main": {
       "type": "page/edit/main",
       "settings": {
         "block_types": ""
       }
     },
-    "footer": {
-      "type": "page/edit/footer",
+    "tools": {
+      "type": "page/tools",
       "settings": {
       }
     }
   },
   "order": [
-    "breadcrumb",
-    "header",
     "main",
-    "footer"
+    "tools"
   ]
 }

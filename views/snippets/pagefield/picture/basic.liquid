@@ -1,10 +1,14 @@
-{%- assign label_text = label | strip_html -%}
+{% liquid
+  assign label_text = label | strip_html
+  assign value_attribute = value | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+  assign placeholder = placeholder | default: label_text | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+%}
 <div id="{{ selector }}" class="w-full page-field page-field-upload page-field-picture{% if preview %} page-field-picture-preview {% endif %}">
   <div class="w-full flex flex-row items-center">
     <div class="me-2 preview">{% if value == blank or preview %}<i class="far fa-image"></i>{% else %}<img class="icon" src="{{ value }}" alt="" style="max-height:3rem;"/>{% endif %}</div>
 
     <div class="w-full me-4">
-      {% render 'pagefield/text/basic', label: label, selector:selector, value: value, class_name: "page-field-upload-text", placeholder: placeholder, icon: icon %}
+      {% render 'pagefield/text/basic', label: label, selector:selector, value: value, class_name: "page-field-upload-text", placeholder: placeholder, icon: icon, form:form %}
     </div>
 
     <div>

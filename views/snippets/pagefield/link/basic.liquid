@@ -1,14 +1,23 @@
-{%- assign label_text = label | strip_html -%}
+{% liquid
+    assign label_text = label | strip_html
+    assign value_label = value.label | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+    assign value_url = value.url | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+    assign placeholder_label = placeholder.label | default: 'label' | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+    assign placeholder_url = placeholder.url | default: 'https://example.com' | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+%}
+
 <div class="relative">
     {% render 'pagefield/input-label', selector: selector, label:label, icon:icon %}
     <div>
         <input type="text" name="{{ selector }}__label" id="field-{{ selector }}"
-               placeholder="{{ placeholder.label | default: 'label' }}"
-               class="block w-full border-0 p-0 font-light bg-transparent focus:border-0 focus:ring-2 focus:ring-inset focus:ring-transparent {{ class_name }}"
-               value="{{ value.label | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;" }}">
+               placeholder="{{ placeholder_label }}"
+               class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-200 focus:outline-none focus:text-highlight {{ class_name }}"
+               {% if form != blank %}form="{{ form }}"{% endif %}
+               value="{{ value_label }}">
         <input type="text" name="{{ selector }}__url" id="field-{{ selector }}-url"
-               placeholder="{{ placeholder.url | default: "https://example.com" }}"
-               class="block w-full border-0 p-0 font-light bg-transparent focus:border-0 focus:ring-2 focus:ring-inset focus:ring-transparent text-xs{{ class_name }}"
-               value="{{ value.url | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;" }}">
+               placeholder="{{ placeholder_url }}"
+               class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-xs text-gray-800 placeholder:text-gray-200 focus:outline-none focus:text-highlight {{ class_name }}"
+               {% if form != blank %}form="{{ form }}"{% endif %}
+               value="{{ value_url }}">
     </div>
 </div>
