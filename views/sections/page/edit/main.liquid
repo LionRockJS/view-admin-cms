@@ -1,8 +1,8 @@
 {%- liquid
-assign block_lists = block_lists | join : ","
-assign block_types = section.settings.block_types | default: block_lists
-assign page_type_name = "Default"
-assign language = language |  default: "en"
+  assign block_lists = block_lists | join : ","
+  assign block_types = section.settings.block_types | default: block_lists
+  assign page_type_name = "Default"
+  assign language = language |  default: "en"
 -%}
 {%- for page_list in page_lists -%}
   <datalist id="page_{{ page_list.type }}_datalist">
@@ -25,10 +25,11 @@ assign language = language |  default: "en"
           <!-- attributes -->
           {%- liquid
             for attribute in attributes
-              assign selector = "@" | append : attribute
-              assign input_type = inputs[attribute] | default: "text"
+              assign name = attribute.name | default: attribute
+              assign selector = "@" | append : name
+              assign input_type = inputs[name] | default: "text"
               assign input_type = input_type | append : "/basic"
-              render 'page/edit/field-row', type: input_type, label: attribute, selector: selector, value: tokens[attribute], placeholder: placeholder[attribute], icon:'gear'
+              render 'page/edit/field-row', type: input_type, label: name, selector: selector, value: tokens[name], placeholder: placeholder[name], icon:'gear'
             endfor
           -%}
         </div>
@@ -42,69 +43,70 @@ assign language = language |  default: "en"
 
         <div>
           <!-- values --->
-{%- liquid
-for field in fields
-  assign selector = "." | append : field
-  assign input_type = inputs[field] | default: "text"
-  assign input_type = input_type | append : "/basic"
-  assign placeholder = placeholders.tokens[field] | strip_html
-  render 'page/edit/field-row', type: input_type, label: field, selector: selector, value: tokens[field], placeholder: placeholder
-endfor
--%}
+          {%- liquid
+            for field in fields
+              assign name = field.name | default: field
+              assign selector = "." | append : name
+              assign input_type = inputs[field] | default: "text"
+              assign input_type = input_type | append : "/basic"
+              assign placeholder = placeholders.tokens[name] | strip_html
+              render 'page/edit/field-row', type: input_type, label: name, selector: selector, value: tokens[name], placeholder: placeholder
+            endfor
+          -%}
 
 
           <!-- items -->
           {% for item in items %}
-          <div class="border-b border-gray-300 pb-3 mb-3">
-{%- liquid
-assign item_name = item.name
-assign item_label = item.name | capitalize
-assign default_items = " " |  split: ","
-assign page_items = tokens[item_name] | default: default_items
-assign page_items = page_items | sort : "_weight"
-  assign key = "." | append: forloop.index0 | append: item_name | md5
--%}
-            <label class="text-xl font-serif me-2" for="{{ key }}"><i class="far fa-copy me-2"></i>{{ item_label }}</label>
-            <input type="checkbox" class="peer hidden" data-state-store="true" checked id="{{ key }}">
-            <label for="{{ key }}" class="float-end peer-checked:hidden inline"><i class="fa-thin fa-chevron-down"></i></label>
-            <label for="{{ key }}" class="float-end peer-checked:inline hidden"><i class="fa-thin fa-chevron-up"></i></label>
+            <div class="border-b border-gray-300 pb-3 mb-3">
+              {%- liquid
+                assign item_name = item.name
+                assign item_label = item.name | capitalize
+                assign default_items = " " |  split: ","
+                assign page_items = tokens[item_name] | default: default_items
+                assign page_items = page_items | sort : "_weight"
+                assign key = "." | append: forloop.index0 | append: item_name | md5
+              -%}
+              <label class="text-xl font-serif me-2" for="{{ key }}"><i class="far fa-copy me-2"></i>{{ item_label }}</label>
+              <input type="checkbox" class="peer hidden" data-state-store="true" checked id="{{ key }}">
+              <label for="{{ key }}" class="float-end peer-checked:hidden inline"><i class="fa-thin fa-chevron-down"></i></label>
+              <label for="{{ key }}" class="float-end peer-checked:inline hidden"><i class="fa-thin fa-chevron-up"></i></label>
 
-            <div class="hidden peer-checked:block mt-3">
-            {% for page_item in page_items %}
-              {% capture prefix %}.{{ item_name }}[{{ page_item._key }}]{% endcapture %}
+              <div class="hidden peer-checked:block mt-3">
+                {% for page_item in page_items %}
+                  {% capture prefix %}.{{ item_name }}[{{ page_item._key }}]{% endcapture %}
 
-              <div class="flex flex-row mb-3 pe-8">
-                {% render "page/edit/item/weight", prefix: prefix, weight: page_item._weight %}
-                <input type="checkbox" class="peer hidden" data-state-store="true" checked id="cb-{{ prefix }}">
-                <div class="me-4 w-full peer-checked:block hidden">
-                  {%- liquid
-                    for attribute in item.attributes
-                      assign selector = prefix | append: "@" | append : attribute
-                      assign input_type = inputs[attribute] | default: "text"
-                      assign input_type = input_type | append : "/basic"
-                      assign placeholder = placeholders.tokens[item_name][page_item._key][attribute] | strip_html
-                      assign label = attribute
-                      render 'page/edit/field-row', type: input_type, label: label, selector: selector, value: page_item[attribute], placeholder: placeholder, icon: 'gear'
-                    endfor
+                  <div class="flex flex-row mb-3 pe-8">
+                    {% render "page/edit/item/weight", prefix: prefix, weight: page_item._weight %}
+                    <input type="checkbox" class="peer hidden" data-state-store="true" checked id="cb-{{ prefix }}">
+                    <div class="me-4 w-full peer-checked:block hidden">
+                      {%- liquid
+                        for attribute in item.attributes
+                          assign name = attribute.name | default: attribute
+                          assign selector = prefix | append: "@" | append : name
+                          assign input_type = inputs[name] | default: "text"
+                          assign input_type = input_type | append : "/basic"
+                          assign placeholder = placeholders.tokens[item_name][page_item._key][name] | strip_html
+                          render 'page/edit/field-row', type: input_type, label: name, selector: selector, value: page_item[name], placeholder: placeholder, icon: 'gear'
+                        endfor
 
-                    for field in item.fields
-                      assign selector = prefix | append: "." | append : field
-                      assign input_type = inputs[field] | default: "text"
-                      assign input_type = input_type | append : "/basic"
-                      assign placeholder = placeholders.tokens[item_name][page_item._key][field] | strip_html
-                      assign label = field
-                      render 'page/edit/field-row', type: input_type, label: label, selector: selector, value: page_item[field], placeholder: placeholder
-                    endfor
-                  -%}
-                </div>
-                <label for="cb-{{ prefix }}" class="cursor-pointer float-end peer-checked:hidden flex items-center justify-between px-2 me-2 w-full bg-gray-200 rounded"><span class="text-gray-400">{{ page_item.name | default: page_item.title }}</span><i class="fa-thin fa-chevron-down"></i></label>
-                <label for="cb-{{ prefix }}" class="cursor-pointer float-end peer-checked:inline hidden pt-1.5 pe-2 me-2"><i class="fa-thin fa-chevron-up"></i></label>
+                        for field in item.fields
+                          assign name = field.name | default: field
+                          assign selector = prefix | append: "." | append : name
+                          assign input_type = inputs[name] | default: "text"
+                          assign input_type = input_type | append : "/basic"
+                          assign placeholder = placeholders.tokens[item_name][page_item._key][name] | strip_html
+                          render 'page/edit/field-row', type: input_type, label: name, selector: selector, value: page_item[name], placeholder: placeholder
+                        endfor
+                      -%}
+                    </div>
+                    <label for="cb-{{ prefix }}" class="cursor-pointer float-end peer-checked:hidden flex items-center justify-between px-2 me-2 w-full bg-gray-200 rounded"><span class="text-gray-400">{{ page_item.name | default: page_item.title }}</span><i class="fa-thin fa-chevron-down"></i></label>
+                    <label for="cb-{{ prefix }}" class="cursor-pointer float-end peer-checked:inline hidden pt-1.5 pe-2 me-2"><i class="fa-thin fa-chevron-up"></i></label>
 
-                {% render "page/edit/item/add-button", index: forloop.index0, page_id:item.id, item_name: item_name, length: forloop.length, key: page_item._key %}
+                    {% render "page/edit/item/add-button", index: forloop.index0, page_id:item.id, item_name: item_name, length: forloop.length, key: page_item._key %}
+                  </div>
+                {% endfor %}
               </div>
-            {% endfor %}
-          </div>
-          </div>
+            </div>
           {% endfor %}
           <!-- end items -->
 
