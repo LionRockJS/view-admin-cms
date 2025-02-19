@@ -14,5 +14,5 @@
             {% if form != blank %}form="{{ form }}"{% endif %}
   >{{ value_attribute }}</textarea>
 
-  <div class="leading-5 transition-[background] duration-[50000s] block w-full bg-transparent grow p-0 focus:outline-none focus:text-gray-800" contenteditable="true" data-placeholder="{{ placeholder | default: label }}">{{ value }}</div>
+  <div class="leading-5 transition-[background] duration-[50000s] overflow-y-auto max-h-[12.5rem] w-full bg-transparent grow p-0 focus:outline-none focus:text-gray-800" contenteditable="true" data-placeholder="{{ placeholder | default: label }}">{{ value }}</div>
 </div>

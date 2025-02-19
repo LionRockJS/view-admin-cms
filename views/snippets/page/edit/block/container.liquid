@@ -10,7 +10,7 @@
     <li class="mb-4 w-full flex">
         <input type="checkbox" class="peer hidden" data-state-store="true" checked id="toggle-{{ prefix }}">
         <label for="toggle-{{ prefix }}" class="-translate-x-[3px] cursor-pointer transition duration-300 flex justify-center min-w-[24px] md:min-w-[55px] border-l-[5px] border-black hover:border-highlight"><i class="pt-[0.3rem] fa-light fa-game-board-simple"></i></label>
-        <label for="toggle-{{ prefix }}" class="cursor-pointer peer-checked:hidden flex items-center justify-between px-2 me-2 w-full bg-gray-200 rounded"><span class="text-gray-400">{{ tokens._name | default: tokens._type }}</span></label>
+        <label for="toggle-{{ prefix }}" class="cursor-pointer peer-checked:hidden flex items-center justify-between px-2 me-2 w-full bg-gray-200 rounded"><span class="text-gray-400">{{ tokens._type }} : {{ tokens._name | default: '-' }}</span></label>
 
         <div class="hidden peer-checked:block w-full">
             <div class="relative flex flex-row">
@@ -23,19 +23,16 @@
                         {% if form != blank %}form="{{ form }}"{% endif %}
                     />
                 </div>
-                <div class="w-[20%] me-4">
-                    {% render 'pagefield/text/dark', label: tokens._type, pattern: "[a-z0-9_-]+", selector:selector, value: tokens._name, placeholder: "key", form: form %}
-                </div>
 
                 <div class="w-full">
                     {%- liquid
                         assign placeholder_key = "__" | append: tokens._name
                         assign tpl = block_templates[tokens._type] | default: 'page/edit/block/edit-scaffold'
-                        render tpl, page_id: page_id, prefix:prefix, tokens: tokens, block_index: block._key, placeholder: placeholder[placeholder_key], blueprint: blocks_blueprint[tokens._type], inputs: inputs, form: form
+                        render tpl, selector:selector, page_id: page_id, prefix:prefix, tokens: tokens, block_index: block._key, placeholder: placeholder[placeholder_key], blueprint: blocks_blueprint[tokens._type], inputs: inputs, form: form
                     -%}
                 </div>
 
-                <div>
+                <div class="min-w-[24px] md:min-w-[55px] text-center">
                     {%- liquid
                         assign page_id = page_id | default: "page_id"
                         assign index = index | default: "9999"
@@ -45,7 +42,7 @@
                             name="action"
                             value="block-delete:{{ block._key }}"
                             {% if form != blank %}form="{{ form }}"{% endif %}
-                    ><i class="fal fa-times"></i></button>
+                    ><i class="fas fa-circle-xmark"></i></button>
                 </div>
             </div>
         </div>

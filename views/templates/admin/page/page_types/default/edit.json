@@ -2,7 +2,7 @@
   "wrapper": "div.container.mx-auto.flex.flex-col.lg:flex-row",
   "sections": {
     "main": {
-      "type": "page/edit/main",
+      "type": "page/edit/main-react",
       "settings": {
         "block_types": ""
       }

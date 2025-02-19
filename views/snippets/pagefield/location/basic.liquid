@@ -1,0 +1,52 @@
+{% liquid
+    assign label_text = label | strip_html
+    assign value_name = value.name | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+    assign value_address = value.address | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+    assign value_city = value.city | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+    assign value_state = value.state | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+    assign value_zip = value.zip | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+    assign value_country = value.country | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+
+    assign placeholder_name = placeholder.name | default: 'Location Name' | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+    assign placeholder_address = placeholder.address | default: 'Address' | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+    assign placeholder_city = placeholder.city | default: 'City' | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+    assign placeholder_state = placeholder.state | default: 'State' | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+    assign placeholder_zip = placeholder.zip | default: 'Zip Code' | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+    assign placeholder_country = placeholder.country | default: 'Country' | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+%}
+
+<div class="relative">
+    {% render 'pagefield/input-label', selector: selector, label:label, icon:icon %}
+    <div class="font-[400] font-sans">
+        <input type="text" name="{{ selector }}__name" id="field-{{ selector }}-name"
+               placeholder="{{ placeholder_name }}"
+               class="text-ellipsis transition-[background] duration-[50000s] block w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-200 focus:outline-none focus:text-highlight {{ class_name }}"
+               {% if form != blank %}form="{{ form }}"{% endif %}
+               value="{{ value_name }}">
+        <input type="text" name="{{ selector }}__address" id="field-{{ selector }}-address"
+               placeholder="{{ placeholder_address }}"
+               class="text-ellipsis transition-[background] duration-[50000s] block w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-200 focus:outline-none focus:text-highlight {{ class_name }}"
+               {% if form != blank %}form="{{ form }}"{% endif %}
+               value="{{ value_address }}">
+        <input type="text" name="{{ selector }}__city" id="field-{{ selector }}-city"
+               placeholder="{{ placeholder_city }}"
+               class="text-ellipsis transition-[background] duration-[50000s] block w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-200 focus:outline-none focus:text-highlight {{ class_name }}"
+               {% if form != blank %}form="{{ form }}"{% endif %}
+               value="{{ value_city }}">
+        <input type="text" name="{{ selector }}__state" id="field-{{ selector }}-state"
+               placeholder="{{ placeholder_state }}"
+               class="text-ellipsis transition-[background] duration-[50000s] block w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-200 focus:outline-none focus:text-highlight {{ class_name }}"
+               {% if form != blank %}form="{{ form }}"{% endif %}
+               value="{{ value_state }}">
+        <input type="text" name="{{ selector }}__zip" id="field-{{ selector }}-zip"
+               placeholder="{{ placeholder_zip }}"
+               class="text-ellipsis transition-[background] duration-[50000s] block w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-200 focus:outline-none focus:text-highlight {{ class_name }}"
+               {% if form != blank %}form="{{ form }}"{% endif %}
+               value="{{ value_zip }}">
+        <input type="text" name="{{ selector }}__country" id="field-{{ selector }}-country"
+               placeholder="{{ placeholder_country }}"
+               class="text-ellipsis transition-[background] duration-[50000s] block w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-200 focus:outline-none focus:text-highlight {{ class_name }}"
+               {% if form != blank %}form="{{ form }}"{% endif %}
+               value="{{ value_country }}">
+    </div>
+</div>
