@@ -1,5 +1,5 @@
 {
-  "wrapper": "div",
+  "wrapper": "div.ms-8",
   "sections": {
     "search": {
         "type": "search",
@@ -37,11 +37,23 @@
       "type": "page/edit/header",
       "settings": {
       }
+    },
+    "tags": {
+      "type": "page/edit/tags",
+      "settings": {
+      }
+    },
+    "command": {
+      "type": "page/edit/command",
+      "settings": {
+      }
     }
   },
   "order": [
     "search",
     "breadcrumb",
-    "header"
+    "header",
+    "tags",
+    "command"
   ]
 }

@@ -1,0 +1,11 @@
+<div id="page-tags" class="rounded border border-gray-200 bg-gray-100 px-4 p-4 relative mb-4">
+  <h5>Tags</h5>
+  <input type="checkbox" class="peer hidden" data-state-store="true" checked id="toggle-tags">
+  <label for="toggle-tags" class="cursor-pointer float-end peer-checked:hidden inline absolute right-4 top-4 select-none"><i class="fa-thin fa-chevron-down"></i></label>
+  <label for="toggle-tags" class="cursor-pointer float-end peer-checked:inline hidden absolute right-4 top-4 select-none"><i class="fa-thin fa-chevron-up"></i></label>
+  <div class="hidden peer-checked:block">
+    {%- for tag_list in tag_lists -%}
+      {% render "page/edit/tag/input", page_id: item.id, label: tag_list, tag_group: tag_list, tag_options: tags[tag_list], tags: item.tags[tag_list] %}
+    {%- endfor -%}
+  </div>
+</div>
