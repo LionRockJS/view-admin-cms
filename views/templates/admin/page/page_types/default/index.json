@@ -4,16 +4,23 @@
     "header": {
       "type": "page/list/header",
       "settings": {
+        "controller": "pages",
+        "page_type": "/{{page_type}}"
       }
     },
     "main": {
       "type": "page/list/main",
       "settings": {
+        "controller": "pages",
+        "page_type": "/{{page_type}}"
       }
     },
     "pagination":{
       "type": "admin/pagination",
-      "settings": {}
+      "settings": {
+        "controller": "pages",
+        "page_type": "/{{page_type}}"
+      }
     }
   },
   "order": [

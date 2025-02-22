@@ -1,12 +1,14 @@
-<form id="search" action="/admin/contents/search/{{ page_type }}" method="get"></form>
+{% assign prefix = section.settings.controller | default: "pages" %}
+{% assign suffix = section.settings.page_type %}
+<form id="search" action="/admin/{{ prefix }}/search{{ suffix }}" method="get"></form>
 <div class="container mx-auto px-4">
   {% assign qs = "" %}
   {% if request.query.pagesize %}{% assign qs = qs | append: "pagesize=" | append: request.query.pagesize %}{% endif %}
   {% if request.query.page %}{% assign qs = qs | append: "&page=" | append: request.query.page %}{% endif %}
   {% if request.query.language %}{% assign qs = qs | append: "&language=" | append: request.query.language %}{% endif %}
   {% if qs != blank %}{% assign qs = '?' | append: qs %}{% endif %}
-  <form id="form-list" action="/admin/pages{{ qs }}" method="post"></form>
-    <input form="form-list" type="hidden" name="destination" value="/admin/contents/list/{{ page_type }}{{ qs }}">
+  <form id="form-list" action="/admin/{{ prefix }}{{ qs }}" method="post"></form>
+    <input form="form-list" type="hidden" name="destination" value="/admin/{{ prefix }}/list{{ suffix }}{{ qs }}">
     <table id="table" class="table-primary">
       <thead>
       <tr>
@@ -24,7 +26,7 @@
           <td><input form='form-list' type="checkbox" name="chk{{item.id}}" /></td>
           <td>{{ forloop.index }}</td>
           <td class="overflow-hidden md:w-full md:max-w-[40rem] max-w-[5rem] leading-4">
-            <a href="/admin/{{type.tableName}}/{{item.id}}">{{item.name | truncate: 100}}</a><br>
+            <a href="/admin/{{prefix}}/{{item.id}}">{{item.name | truncate: 100}}</a><br>
             <span class="text-xs">/{{ item.slug | truncate: 100 }}</span></td>
           <td class="text-center">
             <input form="form-list" type="text" name="({{ item.id }}):weight" value="{{ item.weight }}"
@@ -42,7 +44,7 @@
                 </span>
               {% endif %}
             {% else %}
-              <button hx-swap="none" hx-post="/admin/pages/{{ item.id }}?language={{ language | default: 'en'}}" name="action" value="publish" class="button-primary">Publish</button>
+              <button hx-swap="none" hx-post="/admin/{{ prefix }}/{{ item.id }}?language={{ language | default: 'en'}}" name="action" value="publish" class="button-primary">Publish</button>
             {% endif %}
           </td>
         </tr>
