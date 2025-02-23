@@ -3,12 +3,12 @@
         <h1 class="admin-title">{{ page_type | capitalize }} {{ type.tableName | capitalize }}</h1>
 
         <div class="admin-toolset">
-            <a class="label-icon toolset-add" href="/admin/contents/create/{{ page_type }}">Create {{ page_type}}</a>
+            <a class="label-icon toolset-add" href="/admin/pages/create_by_type/{{ page_type }}">Create {{ page_type}}</a>
         </div>
     </header>
 
     <form action="/admin/pages" method="post">
-        <input type="hidden" name="destination" value="/admin/contents/list/{{ page_type }}">
+        <input type="hidden" name="destination" value="/admin/pages/list/{{ page_type }}">
     <table id="table" class="table table-hover draggable-table">
         <thead>
         <tr>

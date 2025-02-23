@@ -5,7 +5,7 @@
       "settings": {
         "text": "{{ item.title }}",
         "new_label": "New {{ item.page_type }}",
-        "new_url": "/admin/contents/create/{{ item.page_type }}"
+        "new_url": "/admin/pages/create_by_type/{{ item.page_type }}"
       },
       "blocks": {
         "link1": {
@@ -19,7 +19,7 @@
           "type": "link",
           "settings": {
             "text": "{{item.page_type}}",
-            "url": "/admin/contents/list/{{ item.page_type }}"
+            "url": "/admin/pages/list/{{ item.page_type }}"
           }
         }},
       "block_order": [

@@ -11,7 +11,7 @@
     {%- endfor -%}
   </datalist>
 {%- endfor -%}
-<form id="form-search" action="/admin/contents/search/{{ item.page_type }}" method="get"></form>
+<form id="form-search" action="/admin/pages/search/{{ item.page_type }}" method="get"></form>
 <div class="container mx-auto" data-section="sections/page/edit/main">
   <form id="main-form" action="/admin/pages/{{ item.id }}?language={{ language }}" method="post">
     <div id="page-attributes" class="rounded border border-gray-200 bg-gray-100 p-4 mb-4">

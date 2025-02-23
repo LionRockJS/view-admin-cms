@@ -1,4 +1,4 @@
-<form id="search" action="/admin/contents/search/{{ page_type }}" method="get"></form>
+<form id="search" action="/admin/pages/search/{{ page_type }}" method="get"></form>
 <div class="container mx-auto px-4">
   {% assign qs = "" %}
   {% if request.query.pagesize %}{% assign qs = qs | append: "pagesize=" | append: request.query.pagesize %}{% endif %}
@@ -6,7 +6,7 @@
   {% if request.query.language %}{% assign qs = qs | append: "&language=" | append: request.query.language %}{% endif %}
   {% if qs != blank %}{% assign qs = '?' | append: qs %}{% endif %}
   <form id="form-list" action="/admin/pages{{ qs }}" method="post"></form>
-  <input form="form-list" type="hidden" name="destination" value="/admin/contents/list/{{ page_type }}{{ qs }}">
+  <input form="form-list" type="hidden" name="destination" value="/admin/pages/list/{{ page_type }}{{ qs }}">
   <table id="table" class="table-primary">
     <thead>
     <tr>
