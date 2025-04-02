@@ -17,7 +17,7 @@
 <form id="form-search" action="/admin/{{ controller_slug }}/search/{{ item.page_type }}" method="get"></form>
 
 <form id="main-form" action="/admin/{{ controller_slug }}/{{ page_id }}?language={{ language }}" method="post"></form>
-<div id="main-editor" class="flex flex-col w-full md:w-[545px] bg-paper border-x border-black-500 min-h-[100vh] py-[144px] font-sans">
+<div id="main-editor" class="flex flex-col w-full md:w-[545px] md:min-w-[545px] bg-paper border-x border-black-500 min-h-[100vh] py-[144px] font-sans">
   <div class="px-[24px] md:px-[55px] mt-20">
     <h1 class="text-7xl text-primary font-bold mb-4">Edit {{ page_type_name }}</h1>
   </div>

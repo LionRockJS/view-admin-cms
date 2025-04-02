@@ -1,0 +1,24 @@
+{% liquid
+  assign label_text = label | strip_html
+  assign value_attribute = value | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+  assign placeholder = placeholder | default: label_text | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+%}
+
+<div class="relative w-full group">
+  <label for="field-{{ selector }}"></label>
+  <div class="flex">
+    <input type="text"
+           pattern="[0-9]*"
+           class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-12 bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight"
+           value="+852"
+    />
+    <input type="text" name="{{ selector }}"
+           id="field-{{ selector }}"
+           class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight"
+           value="{{ value_attribute }}"
+           placeholder="0000 0000"
+           {% if form != blank %}form="{{ form }}"{% endif %}
+    >
+  </div>
+
+</div>

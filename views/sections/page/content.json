@@ -1,0 +1,25 @@
+{
+  "wrapper": "div.w-full.px-\\[55px\\]",
+  "sections": {
+    "header": {
+      "type": "page/edit/header",
+      "settings": {
+      }
+    },
+    "tags": {
+      "type": "page/edit/tags",
+      "settings": {
+      }
+    },
+    "command": {
+      "type": "page/edit/command",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "header",
+    "tags",
+    "command"
+  ]
+}
