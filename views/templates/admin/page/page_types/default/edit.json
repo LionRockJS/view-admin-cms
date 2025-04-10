@@ -1,6 +1,14 @@
 {
   "wrapper": "div.container.mx-auto.flex.flex-col.lg:flex-row",
   "sections": {
+    "scripts": {
+      "type": "#defer_scripts",
+        "settings": {
+            "value": [
+            "admin/pages/edit.mjs"
+            ]
+        }
+    },
     "main": {
       "type": "page/edit/main",
       "settings": {
@@ -14,6 +22,7 @@
     }
   },
   "order": [
+    "scripts",
     "main",
     "tools"
   ]

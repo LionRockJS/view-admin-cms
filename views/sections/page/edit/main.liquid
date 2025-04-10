@@ -6,20 +6,11 @@
   assign language = language |  default: "en"
   assign page_id = item.id
 -%}
-{%- for page_list in page_lists -%}
-  <datalist id="page_{{ page_list.type }}_datalist">
-    {%- for item in page_list.list -%}
-      <option value="/{{ item.slug }}#({{ item.name }})" data-id="{{ item.id }}" data-name="{{ item.name }}"></option>
-    {%- endfor -%}
-  </datalist>
-{%- endfor -%}
+<div id="main-editor" class="panel-main">
+  <form id="main-form" action="/admin/{{ controller_slug }}/{{ page_id }}?language={{ language }}" method="post"></form>
 
-<form id="form-search" action="/admin/{{ controller_slug }}/search/{{ item.page_type }}" method="get"></form>
-
-<form id="main-form" action="/admin/{{ controller_slug }}/{{ page_id }}?language={{ language }}" method="post"></form>
-<div id="main-editor" class="flex flex-col w-full md:w-[545px] md:min-w-[545px] bg-paper border-x border-black-500 min-h-[100vh] py-[144px] font-sans">
-  <div class="px-[24px] md:px-[55px] mt-20">
-    <h1 class="text-7xl text-primary font-bold mb-4">Edit {{ page_type_name }}</h1>
+  <div class="panel-space mt-20">
+    <h1 class="panel-header">Edit {{ page_type_name }}</h1>
   </div>
 
   <div class="order-last z-10 sticky bottom-4">
@@ -55,22 +46,38 @@
     <div class="hidden peer-checked:flex">
       {% render "side-toggle", selector: "attributes", color: "primary", hover_color: "highlight", icon: "gear" %}
       <div class="grid grid-cols-3 gap-3">
-        {%  render 'page/edit/scaffold-input', items: attributes, key: "@", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens, values: tokens, icon: 'gear', form: "main-form" %}
+        {%  render 'page/edit/scaffold-input', items: blueprint_props.attributes, key: "@", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens, values: tokens, icon: 'gear', form: "main-form" %}
       </div>
     </div>
   </div>
+  <!-- pointers -->
+  {% if pointers != blank %}
+  <div id="page-pointers" class="min-h-8 mt-16 my-4">
+    <input type="checkbox" class="peer hidden" data-state-store="true" checked="checked" id="toggle-pointers">
+    <label for="toggle-pointers" class="peer-checked:hidden absolute cursor-pointer select-none bg-primary flex pe-6 py-1">
+      <span class="text-white min-w-[24px] md:min-w-[55px] flex justify-center items-center"><i class="fa-regular fa-gear"></i></span>
+      <span class="font-bold text-white" >Settings</span>
+    </label>
+    <div class="hidden peer-checked:flex">
+      {% render "side-toggle", selector: "pointers", color: "primary", hover_color: "highlight", icon: "gear" %}
+      <div class="grid grid-cols-3 gap-3">
+        {%  render 'page/edit/scaffold-input', items: blueprint_props.pointers, key: "*", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens, values: tokens, icon: 'gear', form: "main-form" %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
 
   <div class="sticky top-4 mt-12 mb-6 z-10">
     {% render "page/edit/language", language: language, controller_slug:controller_slug, form: "main-form" %}
   </div>
 
   <div class="mb-12">
-    {%  render 'page/edit/scaffold-input', items: fields, key: ".", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens, values: tokens, expandable: true, form: "main-form" %}
+    {%  render 'page/edit/scaffold-input', items: blueprint_props.fields, key: ".", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens, values: tokens, expandable: true, form: "main-form" %}
   </div>
 
   <div id="editor-items" class="mb-12">
     <!-- items -->
-    {% for item in items %}
+    {% for item in blueprint_props.items %}
       {%- liquid
         assign item_name = item.name
         assign item_label = item.name | capitalize
@@ -146,6 +153,20 @@
                       {% render 'page/edit/scaffold-input', items: item.attributes, key: "@", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens[item_name][page_item._key], values: page_item, icon: 'gear', form: "main-form" %}
                     </div>
                   </div>
+
+                  <!-- item pointers -->
+                  {% if item.pointers != blank %}
+                  <div>
+                    <input type="checkbox" class="toggle-item-pointer peer hidden" data-state-store="true" checked id="toggle-pointer-{{ prefix }}">
+                    <label for="toggle-pointer-{{ prefix }}" class="mb-2 peer-checked:hidden inline-block cursor-pointer select-none text-gray-400 ps-2 pe-4 text-center bg-gray-200 rounded-e-full"><i class="far fa-turn-right"></i> Pointers</label>
+
+                    <div class="hidden peer-checked:block mb-3 relative">
+                      <label for="toggle-pointer-{{ prefix }}" class="absolute z-10 right-2 cursor-pointer select-none hover:text-highlight"><i class="fas fa-turn-right"></i></label>
+                      {% render 'page/edit/scaffold-input', items: item.pointers, key: "*", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens[item_name][page_item._key], values: page_item, icon: 'gear', form: "main-form" %}
+                    </div>
+                  </div>
+                  {% endif %}
+
                   <!-- item field -->
                   <div>
                     {% render 'page/edit/scaffold-input', items: item.fields, key: ".", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens[item_name][page_item._key], values: page_item, form: "main-form" %}
@@ -213,4 +234,15 @@
       {% render "page/edit/block/container", page_id: item.id, placeholder: placeholders.tokens, block_names: block_names, blocks: blocks, limits: block_types, blocks_blueprint: blocks_blueprint, inputs: inputs, block_templates: section.settings.block_templates, form: "main-form" %}
     </div>
   </div>
+
+{{ page_lists | json }}
+  {%- for page_list in page_lists -%}
+    <datalist id="page_{{ page_list.type }}_datalist">
+      {%- for item in page_list.list -%}
+        <option value="/{{ item.slug }}#({{ item.name }})" data-id="{{ item.id }}" data-name="{{ item.name }}"></option>
+      {%- endfor -%}
+    </datalist>
+  {%- endfor -%}
+
+  <form id="form-search" action="/admin/{{ controller_slug }}/search/{{ item.page_type }}" method="get"></form>
 </div>
