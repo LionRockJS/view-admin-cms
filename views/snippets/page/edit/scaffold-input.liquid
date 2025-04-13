@@ -10,7 +10,22 @@
 
     assign selector = prefix | append: key | append : name
     assign placeholder = placeholders[name] | strip_html
+
+    if name contains "."
+      assign full_values = values
+      assign name_parts = name | split: "."
+      assign values = values[name_parts[0]]
+      assign name = name_parts[1]
+    endif
+
+    if name contains "@"
+      assign full_values = values
+      assign name_parts = name | split: "@"
+      assign values = values[name_parts[0]]
+      assign name = name_parts[1]
+    endif
 %}
+
 {% if expandable %}
 <div class="min-h-8 mb-4">
   <input type="checkbox" class="peer hidden" data-state-store="true" checked="checked" id="toggle-{{ selector }}"/>
@@ -28,4 +43,5 @@
   {% render 'page/edit/field-row', type: input_type, label: name, selector: selector, value: values[name], placeholder: placeholder, icon: icon, form: form %}
 </div>
 {% endif %}
+  {% assign values = full_values | default: values %}
 {% endfor %}

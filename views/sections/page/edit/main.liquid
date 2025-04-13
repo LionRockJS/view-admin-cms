@@ -105,9 +105,9 @@
             >
               <div class="flex backdrop-blur">
                 <label for="toggle-{{ key }}" class="block font-bold cursor-pointer select-none hover:text-highlight">{{ item_name | capitalize }}</label>
-                <button type="submit" class="button-add mx-2" name="action" value="item-add:{{ item_name }}"><i class="fas fa-circle-plus"></i></button>
+                <button type="submit" class="button-add mx-2" name="action" value="item-add:{{ item_name }}"><i class="fa-light fa-circle-plus"></i></button>
                 <input type="text" pattern="\d+" name="count:{{ item_name }}" value="1"
-                       class="w-8 text-center bg-black text-white rounded-full py-0.5 text-sm">
+                       class="w-8 text-center bg-white text-black rounded-full py-0.5 text-sm border border-gray-300">
               </div>
 
               <div class="flex backdrop-blur">
@@ -126,7 +126,7 @@
             </form>
 
             <!-- item list -->
-            <ul class="grid gap-3 md:grid-cols-2 md:gap-y-[35px] md:gap-x-[55px]">
+            <ul>
             {% for page_item in page_items %}
             {% capture prefix %}.{{ item_name }}[{{ page_item._key }}]{% endcapture %}
             <li class="relative">
@@ -137,12 +137,26 @@
               <div>
                 <div class="absolute -right-4 z-10">
                   {% if forloop.length > 1 %}
-                    <button type="submit" name="action" value="item-delete:{{ item_name }}|{{ page_item._key }}" form="main-form"><i class="fal fa-times"></i></button>
+                    <button type="submit" name="action" value="item-delete:{{ item_name }}|{{ page_item._key }}" form="main-form" class="cursor-pointer hover:text-red-900"><i class="fal fa-times"></i></button>
                   {% endif %}
                 </div>
 
                 <input type="checkbox" class="toggle-item peer hidden" data-state-store="true" checked id="toggle-item-{{ prefix }}">
                 <div class="w-full peer-checked:block hidden">
+                  <!-- item pointers -->
+                  {% if item.pointers != blank %}
+                    <div>
+                      <input type="checkbox" class="toggle-item-pointer peer hidden" data-state-store="true" checked id="toggle-pointer-{{ prefix }}">
+                      <label for="toggle-pointer-{{ prefix }}" class="mb-2 peer-checked:hidden inline-block cursor-pointer select-none text-gray-400 ps-2 pe-4 text-center bg-gray-200 rounded-e-full"><i class="far fa-turn-right"></i> Pointers</label>
+
+                      <div class="hidden peer-checked:block mb-3 relative">
+                        <label for="toggle-pointer-{{ prefix }}" class="absolute z-10 right-2 cursor-pointer select-none hover:text-highlight"><i class="fas fa-turn-right"></i></label>
+                        {% render 'page/edit/scaffold-input', items: item.pointers, key: "*", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens[item_name][page_item._key], values: page_item, icon: 'fa-turn-right', form: "main-form" %}
+                      </div>
+                    </div>
+                  {% endif %}
+
+
                   <!-- item attribute -->
                   <div>
                     <input type="checkbox" class="toggle-item-attribute peer hidden" data-state-store="true" checked id="toggle-attribute-{{ prefix }}">
@@ -153,19 +167,6 @@
                       {% render 'page/edit/scaffold-input', items: item.attributes, key: "@", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens[item_name][page_item._key], values: page_item, icon: 'gear', form: "main-form" %}
                     </div>
                   </div>
-
-                  <!-- item pointers -->
-                  {% if item.pointers != blank %}
-                  <div>
-                    <input type="checkbox" class="toggle-item-pointer peer hidden" data-state-store="true" checked id="toggle-pointer-{{ prefix }}">
-                    <label for="toggle-pointer-{{ prefix }}" class="mb-2 peer-checked:hidden inline-block cursor-pointer select-none text-gray-400 ps-2 pe-4 text-center bg-gray-200 rounded-e-full"><i class="far fa-turn-right"></i> Pointers</label>
-
-                    <div class="hidden peer-checked:block mb-3 relative">
-                      <label for="toggle-pointer-{{ prefix }}" class="absolute z-10 right-2 cursor-pointer select-none hover:text-highlight"><i class="fas fa-turn-right"></i></label>
-                      {% render 'page/edit/scaffold-input', items: item.pointers, key: "*", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens[item_name][page_item._key], values: page_item, icon: 'gear', form: "main-form" %}
-                    </div>
-                  </div>
-                  {% endif %}
 
                   <!-- item field -->
                   <div>
