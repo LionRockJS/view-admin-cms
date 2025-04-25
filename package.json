@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@lionrockjs/view-admin-cms-compact",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "LionRockJS CMS Admin Views",
   "main": "index.js",
   "scripts": {
