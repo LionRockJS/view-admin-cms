@@ -1,0 +1,9 @@
+{% liquid
+    assign toggle_selector = section.settings.toggle_selector | default: toggle_selector
+    assign icon = section.settings.icon | default: icon | default : "gear"
+    assign name = section.settings.name | default: name | capitalize
+%}
+<label for="toggle-{{ toggle_selector }}" class="peer-checked:hidden absolute cursor-pointer select-none bg-primary flex pe-6 py-1">
+    <span class="text-white min-w-[24px] md:min-w-[55px] flex justify-center items-center"><i class="fa-regular fa-{{ icon }}"></i></span>
+    <span class="font-bold text-white" >{{ name }}</span>
+</label>

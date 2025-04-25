@@ -1,0 +1,9 @@
+<div class="mb-12">
+{%  render 'admin/pages/default/scaffold-input',
+        items: blueprint_props[section.settings.type],
+        key: section.settings.key,
+        prefix: prefix,
+        inputs: inputs,
+        placeholders: placeholders.tokens,
+        values: tokens, expandable: true, form: "main-form", section: section %}
+</div>

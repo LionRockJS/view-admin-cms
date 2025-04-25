@@ -1,0 +1,11 @@
+{% assign options = "F,M,X" | split: "," %}
+<div class="flex flex-col mb-2">
+    <div class="form-control p-0">
+        <select class="form-select" name="{{ selector }}" data-value="{{ value }}" id="field-{{ selector }}" {% if form != blank %}form="{{ form }}"{% endif %}>
+            <option value="">Please Select</option>
+            {% for option in options %}
+                <option value="{{ option }}" {% if option == value %}selected{% endif %}>{{ option }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>

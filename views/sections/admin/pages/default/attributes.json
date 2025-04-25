@@ -1,0 +1,18 @@
+{
+  "wrapper": "div.min-h-8.my-4",
+  "sections": {
+    "main": {
+      "type": "ui/toggle",
+      "settings": {
+        "toggle_selector": "{{section.settings.toggle_selector}}",
+        "name": "{{section.settings.name}}",
+        "icon": "{{section.settings.icon}}",
+        "content": "{{section.settings.content}}",
+        "border_color": "{{section.settings.border_color}}"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

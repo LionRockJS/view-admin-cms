@@ -1,23 +1,42 @@
 {% liquid
   assign label_text = label | strip_html
-  assign value_label = value.label | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
-  assign value_url = value.url | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
-  assign placeholder_first = placeholder.label | default: 'label' | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
-  assign placeholder_last = placeholder.url | default: 'https://example.com' | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+  assign value_given = value.given | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+  assign value_family = value.family | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+  assign placeholder_given = placeholder.given | default: 'Given Name' | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+  assign placeholder_family = placeholder.family | default: 'Family Name' | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
 %}
+{% capture input_given %}
+  <input type="text" name="{{ selector }}__given" id="field-{{ selector }}"
+         placeholder="{{ placeholder_given }}"
+         class="text-3xl text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+         {% if form != blank %}form="{{ form }}"{% endif %}
+         value="{{ value_given }}">
+{% endcapture %}
+
+{% capture input_family %}
+  <input type="text" name="{{ selector }}__family" id="field-{{ selector }}-url"
+         placeholder="{{ placeholder_family }}"
+         class="text-3xl text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+         {% if form != blank %}form="{{ form }}"{% endif %}
+         value="{{ value_family }}">
+{% endcapture %}
 
 <div class="relative">
-  {% render 'pagefield/input-label', selector: selector, label:label, icon:icon %}
-  <div>
-    <input type="text" name="{{ selector }}__label" id="field-{{ selector }}"
-           placeholder="{{ placeholder_label }}"
-           class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
-           {% if form != blank %}form="{{ form }}"{% endif %}
-           value="{{ value_label }}">
-    <input type="text" name="{{ selector }}__url" id="field-{{ selector }}-url"
-           placeholder="{{ placeholder_url }}"
-           class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-xs text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
-           {% if form != blank %}form="{{ form }}"{% endif %}
-           value="{{ value_url }}">
+  <div class="grid grid-cols-2 gap-4">
+    {% case language %}
+      {% when "zh-hant" %}
+{{ input_family }}
+{{ input_given }}
+      {% when "zh-hans" %}
+{{ input_family }}
+{{ input_given }}
+      {% when "ja" %}
+{{ input_family }}
+{{ input_given }}
+      {% else %}
+{{ input_given }}
+{{ input_family }}
+    {% endcase %}
+
   </div>
 </div>

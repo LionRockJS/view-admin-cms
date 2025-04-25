@@ -8,7 +8,7 @@
   <label for="field-{{ selector }}"></label>
   <input type="text" name="{{ selector }}"
          id="field-{{ selector }}"
-         class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight"
+         class="text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
          value="{{ value_attribute }}"
          placeholder="{{ placeholder }}"
          {% if form != blank %}form="{{ form }}"{% endif %}

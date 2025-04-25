@@ -1,0 +1,21 @@
+{
+  "wrapper": "div.w-full",
+  "sections": {
+    "name": {
+      "type": "ui/input/text/title",
+      "settings": {
+        "value": "{{item.name}}",
+        "class_name": "font-serif",
+        "form": "main-form",
+        "selector": ":name"
+      }
+    },
+    "slug": {
+      "type": "admin/pages/default/slug"
+    }
+  },
+  "order": [
+    "name",
+    "slug"
+  ]
+}

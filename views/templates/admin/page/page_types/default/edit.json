@@ -1,29 +1,56 @@
 {
-  "wrapper": "div.container.mx-auto.flex.flex-col.lg:flex-row",
+  "wrapper": "div.container.container-columns",
   "sections": {
-    "scripts": {
+    "script": {
+      "type": "#external_scripts",
+      "settings": {
+        "value": [
+          "https://unpkg.com/turndown/dist/turndown.js",
+          "https://cdn.jsdelivr.net/npm/marked/marked.min.js"
+        ]
+      }
+    },
+    "defer_script": {
       "type": "#defer_scripts",
-        "settings": {
-            "value": [
-            "admin/pages/edit.mjs"
-            ]
-        }
+      "settings": {
+        "value": [
+          "admin/pages/edit.mjs"
+        ]
+      }
     },
     "main": {
-      "type": "page/edit/main",
+      "type": "admin/pages/default/edit",
       "settings": {
+        "controller": "{{page_type}}",
         "block_types": ""
       }
     },
-    "tools": {
-      "type": "page/tools",
+    "content": {
+      "type": "ui/content",
       "settings": {
+        "breadcrumb": [
+          {
+            "label": "Home",
+            "url": "/admin"
+          },
+          {
+            "label": "{{page_type | capitalize}}",
+            "url": "/admin/{{page_type}}"
+          },
+          {
+            "label": "Edit {{ item.name }}",
+            "url": "/admin/events/{{ item.id }}"
+          }
+        ],
+        "section_1": "page/content",
+        "section_2": "admin/navigation"
       }
     }
   },
   "order": [
-    "scripts",
+    "script",
+    "defer_script",
     "main",
-    "tools"
+    "content"
   ]
 }

@@ -1,0 +1,88 @@
+{
+  "wrapper": "div.panel-main",
+  "sections": {
+    "title": {
+      "type": "admin/title",
+      "settings": {
+        "title": "Edit {{ page_type | capitalize }}"
+      }
+    },
+    "forms": {
+      "type": "admin/forms",
+      "blocks": {
+        "main-form": {
+          "type": "form",
+          "settings": {
+            "id": "main-form",
+            "action": "/admin/{{section.settings.controller_slug}}/{{ item.id }}?language={{ language | default: 'en' }}",
+            "method": "POST"
+          }
+        },
+        "form-search": {
+          "type": "form",
+          "settings": {
+            "id": "form-search",
+            "action": "/admin/{{section.settings.controller_slug}}/search/{{ item.page_type }}",
+            "method": "POST"
+          }
+        }
+      },
+      "block_order": [
+        "main-form",
+        "form-search"
+      ]
+    },
+    "actions": {
+      "type": "admin/pages/default/actions"
+    },
+    "attributes": {
+      "type": "admin/pages/default/attributes",
+      "settings": {
+        "name": "Settings",
+        "icon": "gear",
+        "toggle_selector": "attributes",
+        "content": "admin/pages/default/attributes-grid",
+        "controller_slug": "{{section.settings.controller_slug}}"
+      }
+    },
+
+    "languages": {
+      "type": "admin/pages/default/languages",
+      "settings": {
+        "controller_slug": "{{section.settings.controller_slug}}"
+      }
+    },
+
+    "fields": {
+      "type": "admin/pages/default/inputs",
+      "settings": {
+        "type": "fields",
+        "key": "."
+      }
+    },
+
+    "items": {
+      "type": "admin/pages/default/items",
+      "settings": {
+        "controller_slug": "{{section.settings.controller_slug}}"
+      }
+    },
+    "blocks": {
+      "type": "admin/pages/default/blocks",
+      "settings": {
+        "controller_slug": "{{controller_slug}}",
+        "block_types": "{{section.settings.block_types}}"
+      }
+    }
+  },
+  "order": [
+    "title",
+    "forms",
+    "actions",
+    "attributes",
+    "languages",
+    "fields",
+    "items",
+    "blocks"
+  ]
+}

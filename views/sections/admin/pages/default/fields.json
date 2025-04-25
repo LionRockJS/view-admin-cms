@@ -1,0 +1,21 @@
+{
+    "sections": {
+        "languages": {
+            "type": "admin/pages/default/languages",
+            "settings": {
+                "controller_slug": "{{section.settings.controller_slug}}"
+            }
+        },
+        "main": {
+            "type": "admin/pages/default/inputs",
+            "settings": {
+                "type": "fields",
+                "key": "."
+            }
+        }
+    },
+    "order": [
+        "languages",
+        "main"
+    ]
+}

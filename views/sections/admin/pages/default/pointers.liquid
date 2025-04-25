@@ -1,0 +1,14 @@
+<!-- pointers -->
+<div id="page-pointers" class="min-h-8 mt-16 my-4">
+    <input type="checkbox" class="peer hidden" data-state-store="true" checked="checked" id="toggle-pointers">
+    <label for="toggle-pointers" class="peer-checked:hidden absolute cursor-pointer select-none bg-primary flex pe-6 py-1">
+        <span class="text-white min-w-[24px] md:min-w-[55px] flex justify-center items-center"><i class="fa-regular fa-gear"></i></span>
+        <span class="font-bold text-white" >Settings</span>
+    </label>
+    <div class="hidden peer-checked:flex">
+        {% render "side-toggle", selector: "pointers", color: "primary", hover_color: "highlight", icon: "gear" %}
+        <div class="grid grid-cols-3 gap-3">
+            {%  render 'page/edit/scaffold-input', items: blueprint_props.pointers, key: "*", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens, values: tokens, icon: 'gear', form: "main-form" %}
+        </div>
+    </div>
+</div>

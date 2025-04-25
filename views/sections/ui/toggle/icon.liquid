@@ -1,0 +1,5 @@
+{% liquid
+    assign toggle_selector = section.settings.toggle_selector | default: toggle_selector
+    assign icon = section.settings.icon | default: icon | default : "gear"
+%}
+<label for="toggle-{{ toggle_selector }}" class="panel-icon"><i class="fa-light fa-{{ icon }}"></i></label>

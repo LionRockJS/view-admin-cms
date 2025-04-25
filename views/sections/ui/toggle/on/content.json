@@ -1,0 +1,11 @@
+{
+  "wrapper": "div.w-full.hidden.peer-checked:block.panel-space.mt-4",
+  "sections": {
+    "main": {
+      "type": "{{section.settings.content | default : \"empty\"}}"
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "sections": {
+    "checkbox": {
+      "type": "ui/toggle/checkbox",
+      "settings": {
+        "toggle_selector": "{{section.settings.toggle_selector}}"
+      }
+    },
+    "off-label": {
+      "type": "ui/toggle/off/label",
+      "settings": {
+        "toggle_selector": "{{section.settings.toggle_selector}}",
+        "name": "{{section.settings.name}}",
+        "icon": "{{section.settings.icon}}"
+      }
+    },
+    "on-content": {
+      "type": "ui/toggle/on/icon_content",
+      "settings": {
+        "border_color": "{{section.settings.border_color}}",
+        "toggle_selector": "{{section.settings.toggle_selector}}",
+        "icon": "{{section.settings.icon}}",
+        "content": "{{section.settings.content}}"
+      }
+    }
+  },
+  "order": [
+    "checkbox",
+    "off-label",
+    "on-content",
+    "main"
+  ]
+}

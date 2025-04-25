@@ -1,0 +1,48 @@
+{% for item in items %}
+{% liquid
+    assign icon = "xmark"
+  #item maybe string or blueprint input object
+    assign name = item.name | default: item
+    assign input_type = item.type | default: inputs[name] | default: "text/basic"
+    # compatible to input_type without subtype
+    unless input_type contains "/"
+      assign input_type = input_type | append : "/basic"
+    endunless
+
+    assign selector = prefix | append: key | append : name
+    assign placeholder = placeholders[name] | strip_html
+
+    if name contains "."
+      assign full_values = values
+      assign name_parts = name | split: "."
+      assign values = values[name_parts[0]]
+      assign name = name_parts[1]
+    endif
+
+    if name contains "@"
+      assign full_values = values
+      assign name_parts = name | split: "@"
+      assign values = values[name_parts[0]]
+      assign name = name_parts[1]
+    endif
+%}
+
+
+<div class="min-h-8 mb-4">
+  <!-- checkbox -->
+  {% render "ui/toggle/checkbox", toggle_selector: selector %}
+  <!-- off-label -->
+  {% render "ui/toggle/off/label", toggle_selector: selector, name: name, icon: icon%}
+  <!-- on-icon_content -->
+
+  <div class="hidden peer-checked:flex border-l-[5px] border-primary hover:border-highlight -translate-x-[3px]">
+    {% render "ui/toggle/icon", toggle_selector: selector, icon: icon %}
+
+    <div class="w-full me-[24px] md:me-[55px]">
+      {% render 'page/edit/field-row', type: input_type, label: name, selector: selector, value: values[name], placeholder: placeholder, icon: icon, form: form %}
+    </div>
+  </div>
+</div>
+
+{% assign values = full_values | default: values %}
+{% endfor %}

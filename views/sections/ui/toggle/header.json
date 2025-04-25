@@ -1,0 +1,16 @@
+{
+  "wrapper": "div.flex.-translate-x-\\[3px\\].border-l-\\[5px\\].peer-checked:border-gray-400.border-gray-200.hover:border-highlight.w-full",
+  "sections": {
+    "icon": {
+      "type": "ui/toggle/icon",
+      "settings": {
+        "icon": "{{section.settings.icon | default : \"gear\"}}",
+        "toggle_selector": "{{section.settings.toggle_selector}}"
+      }
+    },
+    "main": {
+      "type": "{{section.settings.header}}"
+    }
+  },
+  "order": ["icon", "main"]
+}

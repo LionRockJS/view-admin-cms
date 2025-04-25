@@ -1,0 +1,30 @@
+{
+  "wrapper": "div.flex.flex-wrap.my-8",
+  "sections": {
+    "checkbox": {
+      "type": "ui/toggle/checkbox",
+      "settings": {
+        "toggle_selector": "{{section.settings.toggle_selector}}"
+      }
+    },
+    "header": {
+      "type": "ui/toggle/header",
+      "settings": {
+        "header" : "{{section.settings.header}}",
+        "toggle_selector": "{{section.settings.toggle_selector}}",
+        "icon": "{{section.settings.icon}}"
+      }
+    },
+    "main": {
+      "type": "ui/toggle/on/content",
+      "settings": {
+        "content": "{{section.settings.content}}"
+      }
+    }
+  },
+  "order": [
+    "checkbox",
+    "header",
+    "main"
+  ]
+}

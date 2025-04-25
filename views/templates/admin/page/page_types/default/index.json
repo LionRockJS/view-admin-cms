@@ -1,31 +1,33 @@
 {
-  "wrapper": "div.container.mx-auto>div.w-full.md:w-\\[545px\\].bg-paper.border-x.border-black-500.min-h-\\[100vh\\].px-\\[24px\\].md:px-\\[55px\\].py-\\[144px\\]",
+  "wrapper": "div.container.container-columns",
   "sections": {
-    "header": {
-      "type": "page/list/header",
-      "settings": {
-        "controller": "pages",
-        "page_type": "/{{page_type}}"
-      }
-    },
     "main": {
-      "type": "page/list/main",
+      "type": "page/edit/index",
       "settings": {
-        "controller": "pages",
-        "page_type": "/{{page_type}}"
+        "controller": "{{page_type}}",
+        "page_type": ""
       }
     },
-    "pagination":{
-      "type": "admin/pagination",
+    "content": {
+      "type": "ui/content",
       "settings": {
-        "controller": "pages",
-        "page_type": "/{{page_type}}"
+        "breadcrumb": [
+          {
+            "label": "Home",
+            "url": "/admin"
+          },
+          {
+            "label": "{{ page_type | capitalize }}",
+            "url": "/admin/{{page_type}}"
+          }
+        ],
+        "section_1": "page/list/main",
+        "section_2": "admin/navigation"
       }
     }
   },
   "order": [
-    "header",
     "main",
-    "pagination"
+    "content"
   ]
 }

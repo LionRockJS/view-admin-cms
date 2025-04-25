@@ -1,0 +1,14 @@
+{% liquid
+    assign uuid = "" | uuid
+    assign toggle_selector = section.settings.toggle_selector | default: uuid
+    assign name = section.settings.name
+    assign hint = section.settings.hint
+    assign icon = section.settings.icon | default: "gear"
+%}
+<div class="flex -translate-x-[3px] border-l-[5px] peer-checked:border-gray-400 border-gray-200 hover:border-highlight">
+    <label for="toggle-{{ toggle_selector }}" class="panel-icon"><i class="fa-light fa-{{ icon }}"></i></label>
+    <div>
+        <label class="cursor-pointer select-none text-3xl text-primary font-serif" for="toggle-{{ toggle_selector }}">{{ name | default : "Event Lorem Lipsum" }}</label>
+        {% if hint != blank %}<div class="text-md text-gray-700">{{ hint }}</div>{% endif %}
+    </div>
+</div>
