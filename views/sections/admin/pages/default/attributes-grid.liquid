@@ -1,4 +1,38 @@
 <div class="grid grid-cols-3 gap-3 me-[24px] md:me-[55px]">
+    {% for item in blueprint_props.pointers %}
+        {% liquid
+            #item maybe string or blueprint input object
+            assign name = item.name | default: item
+            assign input_type = item.type | default: "text/basic"
+            # compatible to input_type without subtype
+            unless input_type contains "/"
+                assign input_type = input_type | append : "/basic"
+            endunless
+
+            assign selector = prefix | append: "*" | append : name
+            assign placeholder = placeholders.tokens[name] | strip_html
+
+            if name contains "@"
+                assign parts = name | split: "@"
+                assign target = parts | first
+                assign key = parts | last
+                assign value = tokens[target][key]
+            elsif name contains "."
+                assign parts = name | split: "."
+                assign target = parts | first
+                assign key = parts | last
+                assign value = tokens[target][key]
+            else
+                assign value = tokens[name]
+            endif
+        %}
+
+        <div class="{{ row_wrapper_class | default: "w-full" }}">
+            <label for="{{ selector }}" class="text-white bg-primary text-xs px-2">{{ name | t | default: name}}</label>
+            {% render 'page/edit/field-row', type: input_type, label: name, selector: selector, value: value, placeholder: placeholder, form: "main-form" %}
+        </div>
+    {% endfor %}
+
     {% for item in blueprint_props.attributes %}
         {% liquid
             #item maybe string or blueprint input object
