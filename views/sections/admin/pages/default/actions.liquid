@@ -16,6 +16,6 @@
         </div>
     </div>
     <div class="px-[24px] md:px-[55px]">
-        <a class="button-secondary" href="/admin/{{ controller_slug }}/delete/{{ item.id }}">Delete</a>
+        <a class="button-secondary" href="/admin/{{ controller_slug | default: "pages" }}/delete/{{ item.id }}">Delete</a>
     </div>
 </div>

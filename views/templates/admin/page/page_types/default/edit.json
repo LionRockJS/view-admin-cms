@@ -35,11 +35,11 @@
           },
           {
             "label": "{{page_type | capitalize}}",
-            "url": "/admin/{{page_type}}"
+            "url": "/admin/pages/list/{{page_type}}"
           },
           {
             "label": "Edit {{ item.name }}",
-            "url": "/admin/events/{{ item.id }}"
+            "url": "/admin/{{ controller_slug | default: 'pages' }}/{{ item.id }}"
           }
         ],
         "section_1": "page/content",

@@ -1,7 +1,7 @@
 {% assign prefix = section.settings.controller | default: "pages" %}
 {% assign suffix = section.settings.page_type %}
 <form id="search" action="/admin/{{ prefix }}/search{{ suffix }}" method="get"></form>
-<div class="container mx-auto px-4">
+<div class="w-full panel-space">
   {% assign qs = "" %}
   {% if request.query.pagesize %}{% assign qs = qs | append: "pagesize=" | append: request.query.pagesize %}{% endif %}
   {% if request.query.page %}{% assign qs = qs | append: "&page=" | append: request.query.page %}{% endif %}
@@ -11,28 +11,24 @@
     <input form="form-list" type="hidden" name="destination" value="/admin/{{ prefix }}/list{{ suffix }}{{ qs }}">
     <table id="table" class="table-primary">
       <thead>
-      <tr>
-        <th></th>
-        <th></th>
-        <th>Name</th>
-        <th class="text-center">Weight</th>
-        <th class="text-center">Published</th>
+      <tr class="text-left text-primary border-b border-b-gray-300">
+        <th class="text-left pe-4 pb-2">Name</th>
+        <th class="text-center pe-4 pb-2">Weight</th>
+        <th class="text-center pb-2">Published</th>
       </tr>
       </thead>
-      <tbody class="">
+      <tbody>
       {% assign items = items | sort: "weight" | reverse %}
       {% for item in items %}
         <tr>
-          <td><input form='form-list' type="checkbox" name="chk{{item.id}}" /></td>
-          <td>{{ forloop.index }}</td>
-          <td class="overflow-hidden md:w-full md:max-w-[40rem] max-w-[5rem] leading-4">
+          <td class="{% if forloop.index0 == 0 %}pt-4 {% endif %}pe-4 pb-2 overflow-hidden md:w-full md:max-w-[40rem] max-w-[5rem] leading-4">
             <a href="/admin/{{prefix}}/{{item.id}}">{{item.name | truncate: 100}}</a><br>
-            <span class="text-xs">/{{ item.slug | truncate: 100 }}</span></td>
-          <td class="text-center">
+            <span class="block text-xs text-nowrap overflow-hidden text-ellipsis text-gray-400">/{{ item.slug | truncate: 100 }}</span></td>
+          <td class="pe-4 pb-2 text-center">
             <input form="form-list" type="text" name="({{ item.id }}):weight" value="{{ item.weight }}"
             class="mx-auto block px-0 text-xs w-8 md:text-md md:w-16 text-center rounded-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"/>
           </td>
-          <td class="text-center">
+          <td class="pb-2 text-center">
             {% if item.published %}
               {% if item.synced %}<i class="fa-sharp fa-solid fa-circle-check"></i>{% else %}<i class="fa-sharp fa-light fa-arrows-rotate text-amber-500"></i>{% endif %}
               {% if item.weight == item.live_weight %}
@@ -52,7 +48,7 @@
       </tbody>
     </table>
     <div class="text-end my-3">
-      <button form="form-list" type="submit" class="button-secondary">Save Priority</button>
-      <button form="form-list" type="submit" name="action" value="publish_weights" class="button-primary">Publish Priority</button>
+      <button form="form-list" type="submit" class="inline-block transition duration-500 rounded-lg px-8 py-2 uppercase text-base leading-8 font-sans text-white bg-secondary hover:bg-gray-900 cursor-pointer">Save Priority</button>
+      <button form="form-list" type="submit" name="action" value="publish_weights" class="inline-block transition duration-500 rounded-lg px-8 py-2 uppercase text-base leading-8 font-sans text-white bg-primary hover:bg-gray-900 cursor-pointer">Publish Priority</button>
     </div>
 </div>

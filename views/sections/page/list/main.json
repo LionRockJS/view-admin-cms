@@ -1,0 +1,18 @@
+{
+  "wrapper": "div.w-full",
+  "sections": {
+    "table": {
+      "type": "page/list/table"
+    },
+    "pagination": {
+      "type": "pagination",
+      "settings": {
+        "base_url": "/admin/pages/list/{{page_type}}"
+      }
+    }
+  },
+  "order": [
+    "table",
+    "pagination"
+  ]
+}

@@ -1,23 +1,33 @@
 {
+  "wrapper": "div.container.container-columns",
   "sections": {
-    "header": {
-      "type": "admin/tags/list/header",
-      "settings": {
-      }
-    },
     "main": {
-      "type": "admin/tags/list/main",
+      "type": "page/edit/index",
       "settings": {
+        "controller": "{{page_type}}",
+        "page_type": ""
       }
     },
-    "pagination":{
-      "type": "admin/pagination",
-      "settings": {}
+    "content": {
+      "type": "ui/content",
+      "settings": {
+        "breadcrumb": [
+          {
+            "label": "Home",
+            "url": "/admin"
+          },
+          {
+            "label": "{{ page_type | capitalize }}",
+            "url": "/admin/{{page_type}}"
+          }
+        ],
+        "section_1": "admin/tags/list/main",
+        "section_2": "admin/navigation"
+      }
     }
   },
   "order": [
-    "header",
     "main",
-    "pagination"
+    "content"
   ]
 }

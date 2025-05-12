@@ -1,0 +1,18 @@
+{
+  "wrapper": "div.w-full.panel-space",
+  "sections": {
+    "table": {
+      "type": "admin/tags/list/table"
+    },
+    "pagination": {
+        "type": "pagination",
+        "settings": {
+            "base_url": "/admin/tags"
+        }
+    }
+  },
+  "order": [
+      "table",
+      "pagination"
+  ]
+}

@@ -1,0 +1,26 @@
+<form id="search" action="/admin/contents/search/{{ page_type }}" method="get"></form>
+{% assign qs = "" %}
+{% if request.query.pagesize %}{% assign qs = qs | append: "pagesize=" | append: request.query.pagesize %}{% endif %}
+{% if request.query.page %}{% assign qs = qs | append: "&page=" | append: request.query.page %}{% endif %}
+{% if request.query.language %}{% assign qs = qs | append: "&language=" | append: request.query.language %}{% endif %}
+{% if qs != blank %}{% assign qs = '?' | append: qs %}{% endif %}
+<form id="form-list" action="/admin/pages{{ qs }}" method="post"></form>
+<input form="form-list" type="hidden" name="destination" value="/admin/contents/list/{{ page_type }}{{ qs }}">
+<table id="table" class="w-full">
+  <thead>
+  <tr class="text-left text-primary border-b border-b-gray-300">
+    <th class="text-left pe-4 pb-2">Name</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody class="">
+  {% for item in items %}
+    <tr>
+      <td class="{% if forloop.index0 == 0 %}pt-4 {% endif %}pe-4 pb-2 leading-4">
+        <a href="/admin/{{type.tableName}}/{{item.id}}">{{item.name | truncate: 100}}</a><br>
+        <span class="text-xs text-gray-400">{{ tag_types[item.tag_type_id] }}</span></td>
+      <td><a class="underline" href="/admin/{{type.tableName}}/{{item.id}}">view</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
