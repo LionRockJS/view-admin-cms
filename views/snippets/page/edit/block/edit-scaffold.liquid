@@ -50,7 +50,7 @@
 
         <div class="flex flex-row mb-3 relative">
           <div class="absolute -ms-8">
-            {% render "page/edit/item/weight", prefix: prefix, weight: page_item._weight %}
+            {% render "page/edit/item/weight", prefix: prefix, weight: page_item._weight, form: form %}
           </div>
 
           <input type="checkbox" class="peer hidden" data-state-store="true" checked id="toggle-{{ prefix }}">
