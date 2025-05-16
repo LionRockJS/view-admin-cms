@@ -1,4 +1,5 @@
 {% assign page = item %}
+{% assign form = section.settings.form | default: "main-form" %}
 <div id="editor-items" class="mb-12">
     <!-- items -->
     {% for item in blueprint_props.items %}
@@ -22,32 +23,35 @@
 
                 <div class="w-full relative">
                     <!-- item name -->
-                    <form
-                            action="/admin/{{ section.settings.controller_slug | default: "pages" }}/{{ page.id }}?language={{ language }}"
-                            method="post"
-                            class="flex justify-between items-center mb-4 sticky top-12 z-10"
-                    >
-                        <div class="flex backdrop-blur">
-                            <label for="toggle-{{ key }}" class="block font-bold cursor-pointer select-none hover:text-highlight">{{ item_name | capitalize }}</label>
-                            <button type="submit" class="button-add mx-2" name="action" value="item-add:{{ item_name }}"><i class="fa-light fa-circle-plus"></i></button>
-                            <input type="text" pattern="\d+" name="count:{{ item_name }}" value="1"
-                                   class="w-8 text-center bg-white text-black rounded-full py-0.5 text-sm border border-gray-300">
-                        </div>
+                    <div class="flex backdrop-blur">
+                        <label for="toggle-{{ key }}" class="block font-bold cursor-pointer select-none hover:text-highlight">{{ item_name | capitalize }}</label>
+                        <button type="submit"
+                                class="button-add mx-2"
+                                name="action"
+                                value="item-add:{{ item_name }}"
+                                form="{{ form }}"
+                        ><i class="fa-light fa-circle-plus"></i></button>
+                        <input type="text"
+                               pattern="\d+"
+                               name="count:{{ item_name }}"
+                               value="1"
+                               class="w-8 text-center bg-white text-black rounded-full py-0.5 text-sm border border-gray-300"
+                               form="{{ form }}"
+                        >
+                    </div>
 
-                        <div class="flex backdrop-blur">
-                            <div class="me-2">
-                                <input id="bulk-toggle-{{ key }}" type="checkbox" class="bulk-toggle-item peer hidden" checked data-state-store="true" />
-                                <label for="bulk-toggle-{{ key }}" class="peer-checked:block hidden cursor-pointer"><i class="fa-light fa-arrows-to-dotted-line"></i></label>
-                                <label for="bulk-toggle-{{ key }}" class="peer-checked:hidden block cursor-pointer"><i class="fa-light fa-arrows-from-dotted-line"></i></label>
-                            </div>
-                            <div>
-                                <input id="bulk-toggle-attribute-{{ key }}" type="checkbox" class="bulk-toggle-item-attribute peer hidden" checked data-state-store="true" />
-                                <label for="bulk-toggle-attribute-{{ key }}" class="peer-checked:block hidden cursor-pointer"><i class="fa-solid fa-gear"></i></label>
-                                <label for="bulk-toggle-attribute-{{ key }}" class="peer-checked:hidden block cursor-pointer"><i class="fa-light fa-gear"></i></label>
-                            </div>
+                    <div class="flex backdrop-blur">
+                        <div class="me-2">
+                            <input id="bulk-toggle-{{ key }}" type="checkbox" class="bulk-toggle-item peer hidden" checked data-state-store="true" />
+                            <label for="bulk-toggle-{{ key }}" class="peer-checked:block hidden cursor-pointer"><i class="fa-light fa-arrows-to-dotted-line"></i></label>
+                            <label for="bulk-toggle-{{ key }}" class="peer-checked:hidden block cursor-pointer"><i class="fa-light fa-arrows-from-dotted-line"></i></label>
                         </div>
-
-                    </form>
+                        <div>
+                            <input id="bulk-toggle-attribute-{{ key }}" type="checkbox" class="bulk-toggle-item-attribute peer hidden" checked data-state-store="true" />
+                            <label for="bulk-toggle-attribute-{{ key }}" class="peer-checked:block hidden cursor-pointer"><i class="fa-solid fa-gear"></i></label>
+                            <label for="bulk-toggle-attribute-{{ key }}" class="peer-checked:hidden block cursor-pointer"><i class="fa-light fa-gear"></i></label>
+                        </div>
+                    </div>
 
                     <!-- item list -->
                     <ul>
@@ -55,13 +59,17 @@
                             {% capture prefix %}.{{ item_name }}[{{ page_item._key }}]{% endcapture %}
                             <li class="relative">
                                 <div class="absolute left-[-24px] md:left-[-55px] w-[24px] md:w-[55px] flex justify-center">
-                                    {% render "page/edit/item/weight", prefix: prefix, weight: page_item._weight, form: "main-form" %}
+                                    {% render "page/edit/item/weight", prefix: prefix, weight: page_item._weight, form: form %}
                                 </div>
 
                                 <div>
                                     <div class="absolute -right-4 z-10">
                                         {% if forloop.length > 1 %}
-                                            <button type="submit" name="action" value="item-delete:{{ item_name }}|{{ page_item._key }}" form="main-form" class="cursor-pointer hover:text-red-900"><i class="fal fa-times"></i></button>
+                                            <button type="submit" name="action"
+                                                    value="item-delete:{{ item_name }}|{{ page_item._key }}"
+                                                    form="{{ form }}"
+                                                    class="cursor-pointer hover:text-red-900"
+                                            ><i class="fal fa-times"></i></button>
                                         {% endif %}
                                     </div>
 
@@ -75,7 +83,7 @@
 
                                                 <div class="hidden peer-checked:block mb-3 relative">
                                                     <label for="toggle-pointer-{{ prefix }}" class="absolute z-10 right-2 cursor-pointer select-none hover:text-highlight"><i class="fas fa-turn-right"></i></label>
-                                                    {% render 'page/edit/scaffold-input', items: item.pointers, key: "*", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens[item_name][page_item._key], values: page_item, icon: 'fa-turn-right', form: "main-form" %}
+                                                    {% render 'page/edit/scaffold-input', items: item.pointers, key: "*", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens[item_name][page_item._key], values: page_item, icon: 'fa-turn-right', form: form %}
                                                 </div>
                                             </div>
                                         {% endif %}
@@ -88,13 +96,13 @@
 
                                             <div class="hidden peer-checked:block mb-3 relative">
                                                 <label for="toggle-attribute-{{ prefix }}" class="absolute z-10 right-2 cursor-pointer select-none hover:text-highlight"><i class="fas fa-gear"></i></label>
-                                                {% render 'page/edit/scaffold-input', items: item.attributes, key: "@", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens[item_name][page_item._key], values: page_item, icon: 'gear', form: "main-form" %}
+                                                {% render 'page/edit/scaffold-input', items: item.attributes, key: "@", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens[item_name][page_item._key], values: page_item, icon: 'gear', form: form %}
                                             </div>
                                         </div>
 
                                         <!-- item field -->
                                         <div>
-                                            {% render 'page/edit/scaffold-input', items: item.fields, key: ".", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens[item_name][page_item._key], values: page_item, form: "main-form" %}
+                                            {% render 'page/edit/scaffold-input', items: item.fields, key: ".", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens[item_name][page_item._key], values: page_item, form: form %}
                                         </div>
                                     </div>
 
