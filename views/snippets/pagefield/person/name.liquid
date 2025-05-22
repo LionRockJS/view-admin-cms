@@ -1,20 +1,30 @@
 {% liquid
   assign label_text = label | strip_html
   assign value_given = value.given | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+  assign value_middle = value.middle | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
   assign value_family = value.family | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
   assign placeholder_given = placeholder.given | default: 'Given Name' | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+  assign placeholder_middle = placeholder.middle | default: 'Middle Name' | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
   assign placeholder_family = placeholder.family | default: 'Family Name' | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
 %}
 {% capture input_given %}
-  <input type="text" name="{{ selector }}__given" id="field-{{ selector }}"
+  <input type="text" name="{{ selector }}__given" id="field-{{ selector }}-given"
          placeholder="{{ placeholder_given }}"
          class="text-3xl text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
          {% if form != blank %}form="{{ form }}"{% endif %}
          value="{{ value_given }}">
 {% endcapture %}
 
+{% capture input_middle %}
+  <input type="text" name="{{ selector }}__middle" id="field-{{ selector }}-middle"
+         placeholder="{{ placeholder_middle }}"
+         class="text-3xl text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
+         {% if form != blank %}form="{{ form }}"{% endif %}
+         value="{{ value_middle }}">
+{% endcapture %}
+
 {% capture input_family %}
-  <input type="text" name="{{ selector }}__family" id="field-{{ selector }}-url"
+  <input type="text" name="{{ selector }}__family" id="field-{{ selector }}-family"
          placeholder="{{ placeholder_family }}"
          class="text-3xl text-ellipsis transition-[background] duration-[50000s] block font-sans font-[400] w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-400 placeholder:font-[200] focus:outline-none focus:text-highlight {{ class_name }}"
          {% if form != blank %}form="{{ form }}"{% endif %}
@@ -35,6 +45,7 @@
 {{ input_given }}
       {% else %}
 {{ input_given }}
+{{ input_midddle }}
 {{ input_family }}
     {% endcase %}
 

@@ -15,11 +15,15 @@
       "type": "page/edit/command",
       "settings": {
       }
+    },
+    "debug": {
+      "type":  "page/edit/debug"
     }
   },
   "order": [
     "header",
     "tags",
-    "command"
+    "command",
+    "debug"
   ]
 }
