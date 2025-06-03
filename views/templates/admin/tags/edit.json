@@ -1,53 +1,20 @@
 {
   "sections": {
-    "breadcrumb": {
-      "type": "breadcrumb",
-      "settings": {
-        "text": "{{ item.title }}",
-        "new_label": "New Tag",
-        "new_url": "/admin/tags/new"
-      },
-      "blocks": {
-        "link1": {
-          "type": "link",
-          "settings": {
-              "text": "Home",
-              "url": "/admin"
-          }
-        },
-        "link2": {
-          "type": "link",
-          "settings": {
-            "text": "Tags",
-            "url": "/admin/tags"
-          }
-        }},
-      "block_order": [
-        "link1",
-        "link2"
-      ]
-    },
-    "header": {
-      "type": "admin/tags/edit/header",
-      "settings": {
-      }
-    },
     "main": {
-      "type": "admin/tags/edit/main",
+      "type": "ui/workspace",
       "settings": {
-        "block_types": ""
-      }
-    },
-    "footer": {
-      "type": "admin/tags/edit/footer",
-      "settings": {
+        "section_main": "admin/tags/edit",
+        "title": "Tags",
+        "controller_slug": "tags",
+        "breadcrumb": "Home:/admin,Tags:/admin/tags",
+        "section_search": "",
+        "section_header": "",
+        "section_body": "admin/tags/list/main",
+        "section_menu": "admin/navigation"
       }
     }
   },
   "order": [
-    "breadcrumb",
-    "header",
-    "main",
-    "footer"
+    "main"
   ]
 }

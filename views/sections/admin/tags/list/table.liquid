@@ -1,4 +1,3 @@
-<form id="search" action="/admin/contents/search/{{ page_type }}" method="get"></form>
 {% assign qs = "" %}
 {% if request.query.pagesize %}{% assign qs = qs | append: "pagesize=" | append: request.query.pagesize %}{% endif %}
 {% if request.query.page %}{% assign qs = qs | append: "&page=" | append: request.query.page %}{% endif %}

@@ -1,0 +1,63 @@
+{
+  "wrapper": "div.panel-main",
+  "sections": {
+    "title": {
+      "type": "admin/title",
+      "settings": {
+        "title": "Edit Tag {{language}}"
+      }
+    },
+    "forms": {
+      "type": "admin/forms",
+      "blocks": {
+        "main-form": {
+          "type": "form",
+          "settings": {
+            "id": "main-form",
+            "action": "/admin/tags/{{ item.id | default:\"new_post\" }}?language={{ language | default: default_language }}",
+            "method": "POST"
+          }
+        },
+        "form-search": {
+          "type": "form",
+          "settings": {
+            "id": "form-search",
+            "action": "/admin/tags/search",
+            "method": "GET"
+          }
+        }
+      },
+      "block_order": [
+        "main-form",
+        "form-search"
+      ]
+    },
+    "actions": {
+      "type": "admin/tags/edit/actions"
+    },
+    "type_select": {
+      "type": "admin/tags/edit/type_select"
+    },
+    "header": {
+      "type": "admin/tags/edit/header"
+    },
+    "languages": {
+      "type": "admin/pages/default/languages",
+      "settings": {
+        "controller_slug": "{{section.settings.controller_slug}}"
+      }
+    },
+    "fields": {
+      "type": "admin/tags/edit/input"
+    }
+  },
+  "order": [
+    "title",
+    "forms",
+    "actions",
+    "type_select",
+    "header",
+    "languages",
+    "fields"
+  ]
+}

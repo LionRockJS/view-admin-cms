@@ -1,33 +1,20 @@
 {
-  "wrapper": "div.container.container-columns",
   "sections": {
     "main": {
-      "type": "page/edit/index",
+      "type": "ui/workspace",
       "settings": {
-        "controller": "{{page_type}}",
-        "page_type": ""
-      }
-    },
-    "content": {
-      "type": "ui/content",
-      "settings": {
-        "breadcrumb": [
-          {
-            "label": "Home",
-            "url": "/admin"
-          },
-          {
-            "label": "{{ page_type | capitalize }}",
-            "url": "/admin/{{page_type}}"
-          }
-        ],
-        "section_1": "page/list/main",
-        "section_2": "admin/navigation"
+        "section_main": "page/edit/index",
+        "title": "{{page_type | capitalize}}",
+        "controller_slug": "pages",
+        "breadcrumb": "Home:/admin,{{page_type | capitalize}}:/admin/pages/list/{{page_type}}",
+        "section_search": "",
+        "section_header": "",
+        "section_body": "page/list/main",
+        "section_menu": "admin/navigation"
       }
     }
   },
   "order": [
-    "main",
-    "content"
+    "main"
   ]
 }

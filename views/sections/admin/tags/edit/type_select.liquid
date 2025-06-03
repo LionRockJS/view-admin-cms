@@ -1,0 +1,18 @@
+<div class="panel-space">
+  <label
+      for="tagtypes"
+      class="inline-block bg-white px-1 text-xs font-medium text-gray-900"
+  >Tag Type</label>
+  <select
+      id="tagtypes"
+      name=":tag_type_id"
+      required
+      class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+      form="main-form"
+  >
+    <option value="">Please Select</option>
+    {% for type in tag_types %}
+      <option value="{{ type.id }}" {% if type.id == item.tag_type_id %}selected="selected"{% endif %}>{{ type.name }}</option>
+    {% endfor %}
+  </select>
+</div>

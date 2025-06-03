@@ -1,0 +1,27 @@
+{% if tags %}
+<div class="panel-space">
+  <label for="parent_tag"
+         class="absolute -top-2 ms-2 inline-block bg-white px-1 text-xs font-medium text-gray-900"
+  >Parent Tag</label>
+  <input type="text"
+         id="parent_tag"
+         list="taglist"
+         value="{% if item.parent_tag %}{{ item.parent_tag.value | escape }} ( {{ item.parent_tag.name | escape }} ){% endif %}"
+         placeholder="search"
+s         form="main-form"
+         class="w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+  />
+  <input type="hidden" class="page-field-auto-complete-value" value="{{ item.parent_tag.id }}" name=":parent_tag" />
+  <datalist id="taglist">
+    {% for tag in tags %}
+      {% if tag.id != item.id %}
+        <option value="{{ tag.value | escape }} ( {{ tag.name | escape }} )" data-id="{{ tag.id }}" />
+      {% endif %}
+    {% endfor %}
+  </datalist>
+</div>
+{% endif %}
+
+<div class="panel-space mb-4">
+  {% render 'page/edit/field-row', type: "text/basic", label: "Name", selector:".name", value: tokens.name, placeholder: placeholders.name, form: "main-form" %}
+</div>

@@ -1,5 +1,4 @@
 {
-  "wrapper": "div.container.container-columns",
   "sections": {
     "script": {
       "type": "#external_scripts",
@@ -19,38 +18,22 @@
       }
     },
     "main": {
-      "type": "admin/pages/default/edit",
+      "type": "ui/workspace",
       "settings": {
-        "controller": "{{page_type}}",
-        "block_types": ""
-      }
-    },
-    "content": {
-      "type": "ui/content",
-      "settings": {
-        "breadcrumb": [
-          {
-            "label": "Home",
-            "url": "/admin"
-          },
-          {
-            "label": "{{page_type | capitalize}}",
-            "url": "/admin/pages/list/{{page_type}}"
-          },
-          {
-            "label": "Edit {{ item.name }}",
-            "url": "/admin/{{ controller_slug | default: 'pages' }}/{{ item.id }}"
-          }
-        ],
-        "section_1": "page/content",
-        "section_2": "admin/navigation"
+        "section_main": "admin/pages/default/edit",
+        "title": "{{ page_type | capitalize }}",
+        "controller_slug": "pages",
+        "breadcrumb": "Home:/admin,{{page_type | capitalize}}:/admin/pages/list/{{page_type}}, Edit {{ item.name }}:/admin/pages/{{ item.id }}",
+        "section_search": "",
+        "section_header": "",
+        "section_body": "page/content",
+        "section_menu": "admin/navigation"
       }
     }
   },
   "order": [
     "script",
     "defer_script",
-    "main",
-    "content"
+    "main"
   ]
 }

@@ -1,33 +1,20 @@
 {
-  "wrapper": "div.container.container-columns",
   "sections": {
     "main": {
-      "type": "page/edit/index",
+      "type": "ui/workspace",
       "settings": {
-        "controller": "{{page_type}}",
-        "page_type": ""
-      }
-    },
-    "content": {
-      "type": "ui/content",
-      "settings": {
-        "breadcrumb": [
-          {
-            "label": "Home",
-            "url": "/admin"
-          },
-          {
-            "label": "{{ page_type | capitalize }}",
-            "url": "/admin/{{page_type}}"
-          }
-        ],
-        "section_1": "admin/tags/list/main",
-        "section_2": "admin/navigation"
+        "section_main": "admin/tags/main",
+        "title": "Tags",
+        "controller_slug": "tags",
+        "breadcrumb": "Home:/admin,Tags:/admin/tags",
+        "section_search": "",
+        "section_header": "",
+        "section_body": "admin/tags/list/main",
+        "section_menu": "admin/navigation"
       }
     }
   },
   "order": [
-    "main",
-    "content"
+    "main"
   ]
 }
