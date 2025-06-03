@@ -7,7 +7,7 @@
         <div class="relative w-full pe-2">
             <input id="{{ tag_group }}_checkbox" type="checkbox" class="peer hidden" data-state-store="true">
             <label for="{{ selector_input }}" class="peer-checked:absolute peer-checked:-top-2 peer-checked:ms-2 inline-block bg-gray-100 px-1 text-xs font-medium text-gray-900">{{ label }}</label>
-            <input id="{{ selector_input }}" type="text" class="tag-add-input hidden peer-checked:block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" list="{{ selector_list }}" placeholder="{{ placeholder | default: "Search" }}"/>
+            <input id="{{ selector_input }}" type="text" class="tag-add-input hidden peer-checked:block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" list="{{ selector_list }}" placeholder="{{ placeholder | default: "Search" }}" data-controller="{{ controller | default: "page" }}"/>
             <datalist id="{{ selector_list }}">
                 {% for tag in tag_options %}
                 <option value="{{ tag.value }} ( {{ tag.name }} )" data-id="{{ tag.id }}" data-value="{{ tag.value }}" data-name="{{ tag.name }}">

@@ -1,0 +1,48 @@
+{
+  "wrapper": "div.panel-main",
+  "sections": {
+    "title": {
+      "type": "admin/title",
+      "settings": {
+        "title": "Edit Tag Type"
+      }
+    },
+    "forms": {
+      "type": "admin/forms",
+      "blocks": {
+        "main-form": {
+          "type": "form",
+          "settings": {
+            "id": "main-form",
+            "action": "/admin/tag_types/{{ item.id | default:\"new\" }}?language={{ language | default: default_language }}",
+            "method": "POST"
+          }
+        },
+        "form-search": {
+          "type": "form",
+          "settings": {
+            "id": "form-search",
+            "action": "/admin/tag_types/search",
+            "method": "GET"
+          }
+        }
+      },
+      "block_order": [
+        "main-form",
+        "form-search"
+      ]
+    },
+    "actions": {
+      "type": "admin/tags/edit/actions"
+    },
+    "header": {
+      "type": "admin/tags/edit/header"
+    }
+  },
+  "order": [
+    "title",
+    "forms",
+    "actions",
+    "header"
+  ]
+}

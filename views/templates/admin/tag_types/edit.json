@@ -3,13 +3,13 @@
     "main": {
       "type": "ui/workspace",
       "settings": {
-        "section_main": "admin/tag_types/main",
+        "section_main": "admin/tag_types/edit",
         "title": "Tag Types",
         "controller_slug": "tag_types",
         "breadcrumb": "Home:/admin,Tag Types:/admin/tag_types",
         "section_search": "",
         "section_header": "",
-        "section_body": "admin/tags/list/main",
+        "section_body": "empty-full",
         "section_menu": "admin/navigation"
       }
     }
