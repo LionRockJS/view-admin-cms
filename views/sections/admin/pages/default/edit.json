@@ -14,7 +14,7 @@
           "type": "form",
           "settings": {
             "id": "main-form",
-            "action": "/admin/{{section.settings.controller_slug | default: 'pages'}}/{{ item.id }}?language={{ language | default: 'en' }}",
+            "action": "/admin/{{section.settings.controller_slug | default: 'pages'}}/{{ item.id }}?language={{ language | default: default_language }}",
             "method": "POST"
           }
         },
