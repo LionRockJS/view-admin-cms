@@ -14,7 +14,7 @@
           "type": "form",
           "settings": {
             "id": "main-form",
-            "action": "/admin/tag_types/{{ item.id | default:\"new\" }}?language={{ language | default: default_language }}",
+            "action": "/admin/tag_types/{{ item.id | default:\"new\" }}?language={{ language | default: default_language }}&cp=/admin/tag_types",
             "method": "POST"
           }
         },
@@ -33,10 +33,10 @@
       ]
     },
     "actions": {
-      "type": "admin/tags/edit/actions"
+      "type": "admin/tag_types/edit/actions"
     },
     "header": {
-      "type": "admin/tags/edit/header"
+      "type": "admin/tag_types/edit/header"
     }
   },
   "order": [
