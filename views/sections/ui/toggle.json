@@ -1,4 +1,5 @@
 {
+  "wrapper": "div.relative.mb-4",
   "sections": {
     "checkbox": {
       "type": "ui/toggle/checkbox",
