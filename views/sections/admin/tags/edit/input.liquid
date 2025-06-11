@@ -1,5 +1,5 @@
 {% if tags %}
-<div class="panel-space">
+<div class="panel-space hidden">
   <label for="parent_tag"
          class="absolute -top-2 ms-2 inline-block bg-white px-1 text-xs font-medium text-gray-900"
   >Parent Tag</label>
@@ -8,7 +8,7 @@
          list="taglist"
          value="{% if item.parent_tag %}{{ item.parent_tag.value | escape }} ( {{ item.parent_tag.name | escape }} ){% endif %}"
          placeholder="search"
-s         form="main-form"
+         form="main-form"
          class="w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
   />
   <input type="hidden" class="page-field-auto-complete-value" value="{{ item.parent_tag.id }}" name=":parent_tag" />
@@ -22,6 +22,14 @@ s         form="main-form"
 </div>
 {% endif %}
 
-<div class="panel-space mb-4">
-  {% render 'page/edit/field-row', type: "text/basic", label: "Name", selector:".name", value: tokens.name, placeholder: placeholders.name, form: "main-form" %}
+<div class="panel-space my-4">
+  <div>
+    <input
+        form="main-form"
+        class="block w-full rounded-md border-0 py-0.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        type="text"
+        placeholder="Name"
+        name=".name"
+        value="{{ tokens.name | default: "Untitled Tag" }}" required >
+  </div>
 </div>
