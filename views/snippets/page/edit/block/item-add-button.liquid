@@ -1,0 +1,19 @@
+{% assign index = index | default: 0 %}
+{% assign item_name = item_name | default : "item_name" %}
+{% assign page_id = page_id | default: "000" %}
+<div class="pt-1.5 relative">
+    {% if index > 0 %}
+        <button type="submit" class="button-delete" name="action" value="block-item-delete:{{ block_index }}|{{ item_name }}|{{ key }}"><i class="fal fa-times-circle"></i></button>
+    {% else %}
+        <div class="flex flex-col h-4 {% if length > 1 %}-translate-y-3{% endif %}">
+            <button type="submit" class="button-add" name="action" value="block-item-add:{{ block_index }}|{{ item_name }}"><i class="fas fa-plus-circle"></i></button>
+            {% if length > 1 %}
+            <button type="submit" class="button-delete" name="action" value="block-item-delete:{{ block_index }}|{{ item_name }}|{{ key }}"><i class="fal fa-times-circle"></i></button>
+            {% endif %}
+        </div>
+
+        <input type="text" pattern="\d+" name="count:{{ block_index }}|{{ item_name }}" value="1"
+               class="absolute top-0.5 left-full ms-2 block w-8 rounded-md border-0 py-1.5 text-center px-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">
+
+    {% endif %}
+</div>

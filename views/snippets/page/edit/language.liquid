@@ -1,9 +1,12 @@
+{% liquid
+assign language = language | default: "en"
+%}
 <div class="mx-[4px] inline-flex backdrop-blur rounded-full">
   <span class="text-primary min-w-[16px] md:min-w-[47px] me-[4px] flex justify-center items-center"><i class="fa-sharp fa-light fa-globe"></i></span>
 
   <div class="inline-block pe-4">
-    {% if language == "en"      %}<span class="font-bold border-b-2 border-primary text-primary">EN</span>{% else %}<button form="{{ form | default: "main-form" }}" type="submit" name="destination" value="/admin/{{ controller_slug }}/{{ item.id }}?language=en">EN</button>{% endif %}
-    {% if language == "zh-hant" %}<span class="font-bold border-b-2 border-primary text-primary">繁</span>{% else %}<button form="{{ form | default: "main-form" }}" type="submit" name="destination" value="/admin/{{ controller_slug }}/{{ item.id }}?language=zh-hant">繁</button>{% endif %}
-    {% if language == "zh-hans" %}<span class="font-bold border-b-2 border-primary text-primary">简</span>{% else %}<button form="{{ form | default: "main-form" }}" type="submit" name="destination" value="/admin/{{ controller_slug }}/{{ item.id }}?language=zh-hans">简</button>{% endif %}
+    {% if language == "en"      %}<span class="font-bold border-b-2 border-primary text-primary">EN</span>{% else %}<button class="cursor-pointer" form="{{ form | default: "main-form" }}" type="submit" name="destination" value="/admin/{{ controller_slug }}/{{ item.id }}?language=en">EN</button>{% endif %}
+    {% if language == "zh-hant" %}<span class="font-bold border-b-2 border-primary text-primary">繁</span>{% else %}<button class="cursor-pointer" form="{{ form | default: "main-form" }}" type="submit" name="destination" value="/admin/{{ controller_slug }}/{{ item.id }}?language=zh-hant">繁</button>{% endif %}
+    {% if language == "zh-hans" %}<span class="font-bold border-b-2 border-primary text-primary">简</span>{% else %}<button class="cursor-pointer" form="{{ form | default: "main-form" }}" type="submit" name="destination" value="/admin/{{ controller_slug }}/{{ item.id }}?language=zh-hans">简</button>{% endif %}
   </div>
 </div>

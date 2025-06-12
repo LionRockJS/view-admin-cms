@@ -10,9 +10,13 @@
     <li class="mb-4 w-full flex">
         <input type="checkbox" class="peer hidden" data-state-store="true" checked id="toggle-{{ prefix }}">
         <label for="toggle-{{ prefix }}" class="-translate-x-[3px] cursor-pointer transition duration-300 flex justify-center min-w-[24px] md:min-w-[55px] border-l-[5px] border-black hover:border-highlight"><i class="pt-[0.3rem] fa-light fa-game-board-simple"></i></label>
-        <label for="toggle-{{ prefix }}" class="cursor-pointer peer-checked:hidden flex items-center justify-between px-2 me-2 w-full bg-gray-200 rounded"><span class="text-gray-400">{{ tokens._type }} : {{ tokens._name | default: '-' }}</span></label>
+        <label for="toggle-{{ prefix }}" class="select-none cursor-pointer peer-checked:hidden flex items-center justify-between px-2 me-2 w-full bg-gray-200 rounded"><span class="text-gray-400">{{ tokens._type }} : {{ tokens._name | default: '-' }}</span></label>
 
         <div class="hidden peer-checked:block w-full">
+            <label for="toggle-{{ prefix }}"
+                   class="mb-2 text-2xl font-serif uppercase text-primary cursor-pointer select-none"
+            >{{ tokens._type }}</label>
+
             <div class="relative flex flex-row">
                 <div class="absolute left-[-27px]">
                     <input
@@ -41,7 +45,7 @@
                             class="btn btn-link"
                             name="action"
                             value="block-delete:{{ block._key }}"
-                            {% if form != blank %}form="{{ form }}"{% endif %}
+                            form="{{ form }}"
                     ><i class="fas fa-circle-xmark"></i></button>
                 </div>
             </div>
