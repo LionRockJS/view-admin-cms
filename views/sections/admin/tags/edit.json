@@ -14,7 +14,7 @@
           "type": "form",
           "settings": {
             "id": "main-form",
-            "action": "/admin/tags/{{ item.id | default:\"new_post\" }}?language={{ language | default: default_language }}",
+            "action": "/admin/tags/{{ item.id | default:\"new_post\" }}?language={{ language | default: default_language }}&cp=/admin/tags",
             "method": "POST"
           }
         },
