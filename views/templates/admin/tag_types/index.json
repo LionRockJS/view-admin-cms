@@ -10,7 +10,7 @@
         "section_search": "",
         "section_header": "",
         "section_body": "admin/tags/list/main",
-        "section_menu": "admin/navigation"
+        "section_navigation": "admin/navigation-icon"
       }
     }
   },

@@ -10,7 +10,8 @@
         "section_search": "",
         "section_header": "",
         "section_body": "empty-full",
-        "section_menu": "admin/navigation"
+        "section_menu": "admin/navigation",
+        "section_navigation": "admin/navigation-icon"
       }
     }
   },
