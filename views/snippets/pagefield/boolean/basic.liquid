@@ -1,0 +1,23 @@
+{% liquid
+    assign label_text = label | strip_html
+    assign value_attribute = value | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+    assign placeholder = placeholder | default: label_text | strip_html | truncate: 200 | replace: "&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;"
+%}
+
+<div class="relative w-full group">
+    <input type="checkbox"
+           name="{{ selector }}"
+           id="field-{{ selector }}"
+           value="yes"
+           class="page-field-checkbox"
+           {% if value == "yes" %}checked{% endif %}
+    >
+    <input type="hidden"
+           name="{{ selector }}"
+           id="field-{{ selector }}-hidden"
+           value=""
+           class="page-field-checkbox-hidden"
+           {% if form != blank %}form="{{ form }}"{% endif %}
+    >
+    <label for="field-{{ selector }}">{{ placeholder }}</label>
+</div>
