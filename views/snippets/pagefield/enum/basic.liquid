@@ -3,7 +3,9 @@
     <div><i class="far fa-{{ icon | default: "pen" }}"></i></div>
     <div class="form-control p-0">
         {% render 'pagefield/input-label', selector: selector, label:label, icon:icon %}
-        <select class="form-select" name="{{ selector }}" data-value="{{ value }}" id="field-{{ selector }}">
+        <select class="form-select" name="{{ selector }}" data-value="{{ value }}" id="field-{{ selector }}"
+                {% if form != blank %}form="{{ form }}"{% endif %}
+        >
             <option value="">Please Select</option>
             {% for option in options %}
             <option value="{{ option }}" {% if option == value %}selected{% endif %}>{{ option }}</option>

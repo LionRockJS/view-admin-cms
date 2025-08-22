@@ -5,7 +5,9 @@
         <span class="input-group-text input-group-icon">{% if value == blank or preview %}<i class="far fa-image"></i>{% else %}<img class="icon" src="{{ value }}" alt=""/>{% endif %}</span>
         <span class="form-control p-0">
   <label for="{{ selector }}-input" class="fs-50 lh-1 bg-white" style="position: absolute; padding: 0 0.70rem; margin-top: -0.6em;">{{ label }}</label>
-  <input class="form-control border-0 page-field-upload-text" type="text" name="{{ selector }}" value="{{ value }}" id="{{ selector }}-input" placeholder="{{ placeholder | default: label_text }}"/>
+  <input class="form-control border-0 page-field-upload-text" type="text" name="{{ selector }}" value="{{ value }}" id="{{ selector }}-input" placeholder="{{ placeholder | default: label_text }}"
+         {% if form != blank %}form="{{ form }}"{% endif %}
+  />
 </span>
         <span class="input-group-text">
   <label for="{{ selector }}-upload"><i class="fas fa-cloud-upload-alt"></i></label>

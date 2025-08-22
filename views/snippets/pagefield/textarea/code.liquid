@@ -12,7 +12,12 @@
     {% render 'pagefield/input-label', selector: selector, label:label, icon:icon %}
     <div class="w-full flex bg-gray-900 rounded text-xs font-mono">
       <textarea readonly class="input-code-editor-lines py-2 w-8 text-right bg-transparent border-0 user-select-none text-gray-500 overflow-hidden" rows="{{ rows }}">1.</textarea>
-      <textarea id="field-{{ selector }}" class="input-code-editor-textarea w-full p-2 bg-transparent border-0" wrap="off" placeholder="{{ placeholder | default: label_text | truncate: 200  | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;" }}" rows="{{ rows }}">{{ value  | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;" }}</textarea>
+      <textarea id="field-{{ selector }}" class="input-code-editor-textarea w-full p-2 bg-transparent border-0"
+                wrap="off"
+                placeholder="{{ placeholder | default: label_text | truncate: 200  | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;" }}"
+                rows="{{ rows }}"
+                {% if form != blank %}form="{{ form }}"{% endif %}
+      >{{ value  | replace:"&", "&amp;" | replace: "<", "&lt;" | replace: ">", '&gt;' | replace: "\"", "&quot;" }}</textarea>
     </div>
     <div>
       <span class="input-code-editor-summary text-xs bg-white text-black rounded w-full">&nbsp;</span>
