@@ -104,6 +104,106 @@
                                         <div>
                                             {% render 'page/edit/scaffold-input', items: item.fields, key: ".", prefix: prefix, inputs: inputs, placeholders: placeholders.tokens[item_name][page_item._key], values: page_item, form: form %}
                                         </div>
+
+                                        <!-- nested items -->
+                                        {% if item.items != blank %}
+                                            {% for nested_item in item.items %}
+                                                {%- liquid
+                                                    assign nested_item_name = nested_item.name
+                                                    assign nested_item_label = nested_item.name | capitalize
+                                                    assign default_nested_items = " " | split: ","
+                                                    assign page_nested_items = page_item.items[nested_item_name] | default: default_nested_items
+                                                    assign page_nested_items = page_nested_items | sort : "_weight"
+                                                    assign nested_key = prefix | append: "." | append: nested_item_name | md5
+                                                -%}
+                                                <div id="{{ nested_key }}" class="nested-item-container min-h-8 mb-4 mt-4">
+                                                    <input type="checkbox" class="peer hidden" data-state-store="true" checked="checked" id="toggle-{{ nested_key }}">
+                                                    <label class="peer-checked:w-0 peer-checked:px-0 transition-[width] w-auto absolute overflow-hidden inline-block cursor-pointer select-none font-bold text-white bg-blue-400 ps-4 pe-6 py-1 text-sm" for="toggle-{{ nested_key }}">{{ nested_item_label }}<i class="far fa-copy ms-2"></i></label>
+
+                                                    <div class="hidden peer-checked:block pl-4 border-l-2 border-blue-200">
+                                                        <!-- nested item name -->
+                                                        <div class="flex backdrop-blur mb-2">
+                                                            <label for="toggle-{{ nested_key }}" class="block font-bold cursor-pointer select-none hover:text-highlight text-sm">{{ nested_item_name | capitalize }}</label>
+                                                            <button type="submit"
+                                                                    class="button-add mx-2"
+                                                                    name="action"
+                                                                    value="item-add:{{ item_name }}[{{ page_item._key }}].{{ nested_item_name }}"
+                                                                    form="{{ form }}"
+                                                            ><i class="fa-light fa-circle-plus"></i></button>
+                                                            <input type="text"
+                                                                   pattern="\d+"
+                                                                   name="count:{{ item_name }}[{{ page_item._key }}].{{ nested_item_name }}"
+                                                                   value="1"
+                                                                   class="w-8 text-center bg-white text-black rounded-full py-0.5 text-sm border border-gray-300"
+                                                                   form="{{ form }}"
+                                                            >
+                                                        </div>
+
+                                                        <!-- nested item list -->
+                                                        <ul>
+                                                            {% for nested_page_item in page_nested_items %}
+                                                                {% capture nested_prefix %}{{ prefix }}.{{ nested_item_name }}[{{ nested_page_item._key }}]{% endcapture %}
+                                                                <li class="relative mb-2">
+                                                                    <div class="flex items-start">
+                                                                        <div class="w-8 flex justify-center flex-shrink-0">
+                                                                            {% render "page/edit/item/weight", prefix: nested_prefix, weight: nested_page_item._weight, form: form %}
+                                                                        </div>
+
+                                                                        <div class="flex-grow">
+                                                                            <div class="absolute -right-4 z-10">
+                                                                                {% if forloop.length > 1 %}
+                                                                                    <button type="submit" name="action"
+                                                                                            value="item-delete:{{ item_name }}[{{ page_item._key }}].{{ nested_item_name }}|{{ nested_page_item._key }}"
+                                                                                            form="{{ form }}"
+                                                                                            class="cursor-pointer hover:text-red-900"
+                                                                                    ><i class="fal fa-times"></i></button>
+                                                                                {% endif %}
+                                                                            </div>
+
+                                                                            <input type="checkbox" class="toggle-item peer hidden" data-state-store="true" checked id="toggle-nested-item-{{ nested_prefix }}">
+                                                                            <div class="w-full peer-checked:block hidden">
+                                                                                <!-- nested item pointers -->
+                                                                                {% if nested_item.pointers != blank %}
+                                                                                    <div>
+                                                                                        <input type="checkbox" class="toggle-item-pointer peer hidden" data-state-store="true" checked id="toggle-nested-pointer-{{ nested_prefix }}">
+                                                                                        <label for="toggle-nested-pointer-{{ nested_prefix }}" class="mb-2 peer-checked:hidden inline-block cursor-pointer select-none text-gray-400 ps-2 pe-4 text-center bg-gray-200 rounded-e-full text-sm"><i class="far fa-turn-right"></i> Pointers</label>
+
+                                                                                        <div class="hidden peer-checked:block mb-3 relative">
+                                                                                            <label for="toggle-nested-pointer-{{ nested_prefix }}" class="absolute z-10 right-2 cursor-pointer select-none hover:text-highlight"><i class="fas fa-turn-right"></i></label>
+                                                                                            {% render 'page/edit/scaffold-input', items: nested_item.pointers, key: "*", prefix: nested_prefix, inputs: inputs, placeholders: placeholders.tokens[item_name][page_item._key][nested_item_name][nested_page_item._key], values: nested_page_item, icon: 'fa-turn-right', form: form %}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                {% endif %}
+
+                                                                                <!-- nested item attribute -->
+                                                                                <div>
+                                                                                    <input type="checkbox" class="toggle-item-attribute peer hidden" data-state-store="true" checked id="toggle-nested-attribute-{{ nested_prefix }}">
+                                                                                    <label for="toggle-nested-attribute-{{ nested_prefix }}" class="mb-2 peer-checked:hidden inline-block cursor-pointer select-none text-gray-400 ps-2 pe-4 text-center bg-gray-200 rounded-e-full text-sm"><i class="far fa-gear"></i> Settings</label>
+
+                                                                                    <div class="hidden peer-checked:block mb-3 relative">
+                                                                                        <label for="toggle-nested-attribute-{{ nested_prefix }}" class="absolute z-10 right-2 cursor-pointer select-none hover:text-highlight"><i class="fas fa-gear"></i></label>
+                                                                                        {% render 'page/edit/scaffold-input', items: nested_item.attributes, key: "@", prefix: nested_prefix, inputs: inputs, placeholders: placeholders.tokens[item_name][page_item._key][nested_item_name][nested_page_item._key], values: nested_page_item, icon: 'gear', form: form %}
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <!-- nested item field -->
+                                                                                <div>
+                                                                                    {% render 'page/edit/scaffold-input', items: nested_item.fields, key: ".", prefix: nested_prefix, inputs: inputs, placeholders: placeholders.tokens[item_name][page_item._key][nested_item_name][nested_page_item._key], values: nested_page_item, form: form %}
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <label for="toggle-nested-item-{{ nested_prefix }}" class="cursor-pointer peer-checked:hidden flex items-start justify-between px-2 w-full bg-gray-100 rounded select-none text-sm"><span class="text-gray-400">{{ nested_page_item.name | default: nested_page_item.title | default: "--" }}</span><i class="mt-1 fa-thin fa-chevron-down"></i></label>
+                                                                            <label for="toggle-nested-item-{{ nested_prefix }}" class="absolute top-0 right-0 cursor-pointer peer-checked:inline hidden pe-2 select-none"><i class="fa-thin fa-chevron-up"></i></label>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                        <!-- end nested items -->
                                     </div>
 
                                     <label for="toggle-item-{{ prefix }}" class="cursor-pointer peer-checked:hidden flex items-start justify-between px-2 w-full bg-gray-200 rounded select-none"><span class="text-gray-400">{{ page_item.name | default: page_item.title | default: "--" }}</span><i class="mt-1 fa-thin fa-chevron-down"></i></label>
