@@ -2,10 +2,10 @@
 <div class="container mx-auto sticky bottom-4 flex flex-row justify-between">
   <div>
     <a class="button-danger" href="/admin/pages/delete/{{ item.id }}">Delete</a>
-    <button form="main-form" type="submit" class="{% if published %}button-secondary{% else %}button-primary{% endif %}">Save Draft</button>
+    <button form="main-form" type="submit" class="button-primary">Save Draft</button>
+
     {% if published %}
       {% if sync != true%}<button class="button-secondary" type="submit" name="action" value="revert" form="main-form">Revert Published</button>{% endif %}
-      <button class="button-primary" type="submit" name="action" value="publish" form="main-form">Save</button>
     {% endif %}
   </div>
   <div class="button-secondary">
